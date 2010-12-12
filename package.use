@@ -1,0 +1,68 @@
+media-sound/mpd aac flac mp3 ogg vorbis
+app-admin/conky mpd hddtemp rss nano-syntax
+net-misc/ntp caps
+dev-libs/xmlrpc-c curl
+x11-libs/qt accessibility
+ x11-libs/qt-sql sqlite
+#net-dns/avahi mdnsresponder-compat
+dev-lang/python tk
+media-gfx/inkscape postscript inkjar lcms imagemagick
+media-gfx/pstoedit  plotutils
+app-text/poppler-bindings cairo
+net-print/hplip ppds
+net-print/cups ppds
+media-gfx/sane-backends gphoto2
+sys-devel/gcc gcj objc objc++ obj
+dev-util/git curl
+x11-libs/qt png mng jpeg cups dbus doc examples gif
+dev-cpp/gtkmm accessibility
+media-video/vlc -skin -skins
+dev-java/antlr java
+dev-db/mysql embedded
+dev-java/sun-jdk -doc
+dev-libs/apr-util ldap
+#net-dns/avahi -python -mono
+net-print/hplip scanner snmp
+net-analyzer/net-snmp lm_sensors
+x11-base/xorg-server -hal
+x11-libs/fltk -cairo
+net-libs/libproxy gnome
+sys-auth/pambase consolekit
+net-libs/libsoup gnome
+x11-libs/libX11 xcb
+x11-libs/cairo xcb
+app-admin/conky nvidia moc -ipv6
+media-libs/mlt -qt3 mmx
+#net-dns/avahi -dbus -mdnsresponder-compat
+net-dns/avahi autoipd dbus mdnsresponder-compat
+dev-util/eclipse-sdk -doc
+x11-wm/awesome -doc
+app-text/docbook-sgml-utils jadetex
+media-libs/freetype kpathsea
+app-text/lcdf-typetools kpathsea
+app-office/openoffice en_US en_UK templates
+x11-drivers/xf86-input-evdev -hal
+net-libs/xulrunner custom-optimization
+dev-util/qt-creator subversion
+media-libs/mlt melt
+dev-python/PyQt4 sql
+app-office/openoffice gnome
+media-sound/amarok -python
+x11-libs/qscintilla -python
+dev-libs/soprano java
+sys-fs/udev extras
+dev-db/sqlite fts3
+net-libs/libnice gstreamer
+media-gfx/splashutils fbcondecor
+dev-util/subversion -kde
+x11-base/xorg-server -udev
+app-text/poppler cairo
+www-client/mozilla-firefox  custom-optimization
+dev-lang/php gd
+x11-terms/rxvt-unicode perl truetype afterimage xterm-color
+x11-libs/qt-gui private-headers
+x11-libs/qt-core private-headers
+x11-libs/qt-script private-headers
+x11-libs/qt-declarative private-headers
+dev-util/qt-creator qtscript bineditor bookmarks git doc 
+x11-libs/qt-assistant doc

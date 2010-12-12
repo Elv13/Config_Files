@@ -1,0 +1,244 @@
+# Conky sample configuration
+#
+# the list of variables has been removed from this file in favour
+# of keeping the documentation more maintainable.
+# Check http://conky.sf.net for an up-to-date-list.
+
+# set to yes if you want Conky to be forked in the background
+#background no
+
+# X font when Xft is disabled, you can pick one with program xfontsel
+#font 5x7
+#font 6x10
+#font 7x13
+#font 8x13
+#font 9x15
+#font *mintsmild.se*
+#font -*-*-*-*-*-*-34-*-*-*-*-*-*-*
+
+# Use Xft?
+#use_xft yes
+
+# Xft font when Xft is enabled
+xftfont Bitstream Vera Sans Mono:size=8
+
+# Text alpha when using Xft
+xftalpha 0.8
+
+# Print everything to stdout?
+# out_to_console no
+
+# MPD host/port
+# mpd_host localhost
+# mpd_port 6600
+# mpd_password tinker_bell
+
+# Print everything to console?
+# out_to_console no
+
+# mail spool
+#mail_spool $MAIL
+
+# Update interval in seconds
+update_interval 1
+
+# This is the number of times Conky will update before quitting.
+# Set to zero to run forever.
+total_run_times 0
+
+# Create own window instead of using desktop (required in nautilus)
+#own_window yes
+
+# If own_window is yes, you may use type normal, desktop or override
+own_window_type normal
+
+# Use pseudo transparency with own_window?
+own_window_transparent yes
+
+# If own_window_transparent is set to no, you can set the background colour here
+own_window_colour hotpink
+
+# If own_window is yes, these window manager hints may be used
+#own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+# Use double buffering (reduces flicker, may not work for everyone)
+double_buffer yes
+
+# Minimum size of text area
+minimum_size 280 5
+
+# Draw shades?
+draw_shades yes
+
+# Draw outlines?
+draw_outline no
+
+# Draw borders around text
+#draw_borders no
+
+# Draw borders around graphs
+draw_graph_borders yes
+
+# Stippled borders?
+stippled_borders 8
+
+# border margins
+border_margin 4
+
+# border width
+#border_width 1
+
+# Default colors and also border colors
+#default_color white
+#default_shade_color black
+#default_outline_color black
+
+#dexter_client no
+#dexter_server no
+# config file for libdexter (default search path: $HOME/.dexterrc; /etc/libdexter/dexter.conf)
+#dexter_config
+
+# Text alignment, other possible values are commented
+alignment top_left
+#alignment top_right
+#alignment bottom_left
+#alignment bottom_right
+#alignment none
+
+# Gap between borders of screen and text
+# same thing as passing -x at command line
+gap_x 5
+gap_y 20
+
+# Subtract file system buffers from used memory?
+no_buffers yes
+
+# set to yes if you want all text to be in uppercase
+#uppercase no
+
+# number of cpu samples to average
+# set to 1 to disable averaging
+cpu_avg_samples 5
+
+# number of net samples to average
+# set to 1 to disable averaging
+net_avg_samples 5
+
+# Force UTF8? note that UTF8 support required XFT
+#override_utf8_locale no
+
+# Add spaces to keep things from moving about?  This only affects certain objects.
+#use_spacer no
+
+# Allow each port monitor to track at most this many connections (if 0 or not set, default is 256)
+#max_port_monitor_connections 256
+
+# Maximum number of special things, e.g. fonts, offsets, aligns, etc.
+#max_specials 512
+
+# Maximum size of buffer for user text, i.e. below TEXT line.
+#max_user_text 16384
+
+# variable is given either in format $variable or in ${variable}. Latter
+# allows characters right after the variable and must be used in network
+# stuff because of an argument
+
+# stuff after 'TEXT' will be formatted on screen
+
+TEXT
+${tab 2650}$nodename - $sysname $kernel on $machine ${tab 2000}
+${tab 2650}${color lightgrey}Uptime:$color $uptime ${color lightgrey}- Load:$color $loadavg
+${tab 2650}$stippled_hr
+${tab 2650}CPU:
+
+${tab 2650}${color lightgrey}CPU Usage: ${cpu}% ${cpubar}
+${tab 2650}${color lightgrey}${cpugraph cpu0 25,700 0085CC 0085CC}
+${tab 68}/home/lepagee
+${tab 68}Cap.:$fs_size${tab 1324}Individual CPU:
+${tab 68}Ava..:$fs_free${tab 1325}${color lightgrey}CPU0 Usage: ${cpu cpu1}% ${cpubar cpu1 6,600} 
+${tab 68}Used.:$fs_used${tab 1325}${color lightgrey}CPU1 Usage: ${cpu cpu2}% ${cpubar cpu2 6,600} 
+${tab 68}${fs_bar 6,80}${tab 1325}${color lightgrey}CPU2 Usage: ${cpu cpu3}% ${cpubar cpu3 6,600} 
+${tab 2650}${color lightgrey}CPU3 Usage: ${cpu cpu4}% ${cpubar cpu4 6,600} 
+
+
+${tab 2650}${color lightgrey}CPU    Freq (ghz):                   Freq (mhz):                Temp (°C):
+${tab 68}/${tab 1325}${color lightgrey}CPU0      ${freq_g cpu1}                          ${freq cpu1}                      ${color red} ${hwmon 0 temp 1}${color lightgrey}
+${tab 68}Cap.:${fs_size}${tab 1325}${color lightgrey}CPU1      ${freq_g cpu1}                          ${freq cpu1}                      ${color red} ${hwmon 1 temp 1}${color lightgrey}
+${tab 68}Ava..:${fs_free}${tab 1325}${color lightgrey}CPU2      ${freq_g cpu1}                          ${freq cpu1}                      ${color red} ${hwmon 2 temp 1}${color lightgrey}
+${tab 68}Used.:${fs_used}${tab 1325}${color lightgrey}CPU3      ${freq_g cpu1}                          ${freq cpu1}                      ${color red} ${hwmon 3 temp 1}${color lightgrey}
+${tab 68}${fs_bar 6,80}
+
+${tab 2650}${color lightgrey} $stippled_hr
+${tab 2650}Hard Drive:
+
+${tab 2650}${color lightgrey}SAMBA sda (remote):
+${tab 68}/mnt/sda1${tab 1325}HDD Model: IC35L120AVV207-1
+${tab 68}Cap.:${fs_size /mnt/sda1}${tab 1325}HDD Capacity: 120gb
+${tab 68}Ava..:${fs_free /mnt/sda1}${tab 1325}HDD Temp (°C):${color red}${hddtemp /dev/sda 192.168.1.103 7643} ${color lightgrey}
+${tab 68}Used.:${fs_used /mnt/sda1}${tab 1325}/dev/smbsda1 state: ${if_mounted /mnt/smbsda1} Mounted $else Not Mounted $endif
+${tab 68}${fs_bar 6,80 /mnt/sda1}
+${tab 2650}${color lightgrey}SAMBA sdb (remote):
+${tab 2650}HDD Model: WDC WD3000JD-00KLB0
+${tab 2650}HDD Capacity: 320gb
+${tab 2650}HDD Temp (°C):${color red}${hddtemp /dev/sdb 192.168.1.103 7643} ${color lightgrey}
+${tab 2650}/dev/smbsdb3 state: ${if_mounted /mnt/smbsdb3} Mounted $else Not Mounted $endif
+${tab 68}/mnt/smbsda1
+${tab 68}Cap.:${fs_size /mnt/smbsda1}${tab 1325}${color lightgrey}Root:
+${tab 68}Ava..:${fs_free /mnt/smbsda1}${tab 1325}HDD Model: WDC WD5000AAKS-00YGA0
+${tab 68}Used.:${fs_used /mnt/smbsda1}${tab 1325}HDD Capacity: 500gb
+${tab 68}${fs_bar 6,80 /mnt/smbsda1}${tab 1325}HDD Temp (°C):${color red}${hddtemp /dev/sda} ${color lightgrey}
+${tab 2650}${color lightgrey}State: ${exec cat /sys/bus/scsi/devices/4:0:0:0/state}
+1${tab 2650}/dev/sda1 state: ${if_mounted /mnt/sda1} Mounted $else Not Mounted $endif
+2${tab 2650}/dev/sda3 state: ${if_mounted /} Mounted $else Not Mounted $endif
+3
+4${tab 2650}Read:${color #8844ee} ${diskio_read}/s ${color lightgrey} ${offset 277}Write:${color #22ccff} ${diskio_write}/s
+5${tab 2650}${color lightgrey}${diskiograph_read 32,343 0085CC 0085CC } ${color lightgrey}${diskiograph_write 32,343 0085CC 0085CC }
+6
+7${tab 2650}$stippled_hr
+8${tab 2650}Software:
+9
+${tab 2650}${color lightgrey}RAM Usage:$color $mem/$memmax - $memperc% ${membar 6,500}
+
+${tab 2650}${color lightgrey}Swap Usage: $color $swap/$swapmax - $swapperc% ${swapbar 6,495}
+
+${tab 2650}${color}CPU usage:${tab 500}${color}Mem usage:
+${tab 2650}${color}Name                PID     CPU%   MEM%${tab 500}Name                PID     CPU%   MEM%
+${tab 2650}${color #ddaa00} ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}${tab 150}${color #ddaa00} ${top_mem name 1} ${top_mem pid 1} ${top_mem cpu 1} ${top_mem mem 1}
+${tab 2650}${color lightgrey} ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}${tab 150}${color lightgrey} ${top_mem name 2} ${top_mem pid 2} ${top_mem cpu 2} ${top_mem mem 2}
+${tab 2650}${color lightgrey} ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}${tab 150}${color lightgrey} ${top_mem name 3} ${top_mem pid 3} ${top_mem cpu 3} ${top_mem mem 3}
+${tab 2650}${color lightgrey} ${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}${tab 150}${color lightgrey} ${top_mem name 4} ${top_mem pid 4} ${top_mem cpu 4} ${top_mem mem 4}
+${tab 2650}${color lightgrey} ${top name 5} ${top pid 5} ${top cpu 5} ${top mem 5}${tab 150}${color lightgrey} ${top_mem name 5} ${top_mem pid 5} ${top_mem cpu 5} ${top_mem mem 5}
+${tab 2650}${color lightgrey} ${top name 6} ${top pid 6} ${top cpu 6} ${top mem 6}${tab 150}${color lightgrey} ${top_mem name 6} ${top_mem pid 6} ${top_mem cpu 6} ${top_mem mem 6}
+${tab 2650}${color lightgrey} ${top name 7} ${top pid 7} ${top cpu 7} ${top mem 7}${tab 150}${color lightgrey} ${top_mem name 7} ${top_mem pid 7} ${top_mem cpu 7} ${top_mem mem 7}
+${tab 2650}${color lightgrey} ${top name 8} ${top pid 8} ${top cpu 8} ${top mem 8}${tab 150}${color lightgrey} ${top_mem name 8} ${top_mem pid 8} ${top_mem cpu 8} ${top_mem mem 8}
+${tab 2650}${color lightgrey} ${top name 9} ${top pid 9} ${top cpu 9} ${top mem 9}${tab 150}${color lightgrey} ${top_mem name 9} ${top_mem pid 9} ${top_mem cpu 9} ${top_mem mem 9}
+
+
+${tab 2650}${color lightgrey}Open Processes: ${color grey}$processes  ${color lightgrey}
+${tab 2650}Running Processes:${color grey} $running_processes${color lightgrey}
+
+${tab 2650}$stippled_hr
+${tab 2650}Hardware:
+
+${tab 2650}  _yg.         
+${tab 2650} .QQQ;   _wgga    Fan1(cpu):       ${platform w83627ehf.656 fan 1}         |    VCore 1:   ${color #ddaa00}+${i2c 1-0028 in 0} 2.35 ${color lightgrey}V  (min =  ${color #ddaa00}+0.00 ${color lightgrey}V, max =  ${color #ddaa00}+3.49 ${color lightgrey}V)
+${tab 2650}  4QWk  jQQWQW(   Fan2(chipsset):  ${platform w83627ehf.656 fan 2}         |    VCore 2:   ${color #ddaa00}+${i2c 1-0028 in 1} 2.98 ${color lightgrey}V  (min =  ${color #ddaa00}+2.05 ${color lightgrey}V, max =  ${color #ddaa00}+0.51 ${color lightgrey}V)
+${tab 2650}  -9QWmmW@Y"""`   Fan3:            ${platform w83627ehf.656 fan 3}            |    +3.3V:     ${color #ddaa00}+${i2c 1-0028 in 2} 3.26 ${color lightgrey}V  (min =  ${color #ddaa00}+0.22 ${color lightgrey}V, max =  ${color #ddaa00}+2.58 ${color lightgrey}V)
+${tab 2650}    ~$WQQk      Fan4:            ${platform w83627ehf.656 fan 4}            |    +5V:       ${color #ddaa00}+${i2c 1-0028 in 3} 5.48 ${color lightgrey}V  (min =  ${color #ddaa00}+3.90 ${color lightgrey}V, max =  ${color #ddaa00}+1.51 ${color lightgrey}V)
+${tab 2650}    _mQWWWQw,     Fan5:            ${platform w83627ehf.656 fan 5}            |    +12V:      ${color #ddaa00}+${i2c 1-0028 in 4} 9.06 ${color lightgrey}V  (min =  ${color #ddaa00}+0.18 ${color lightgrey}V, max =  ${color #ddaa00}+4.68 ${color lightgrey}V)
+${tab 2650}_wwmQQE--3WQm,    Temp1:				       ${color red}${platform w83627ehf.656 temp 1}°C${color lightgrey}        |    -12V:     ${color #ddaa00}-${i2c 1-0028 in 5} 11.01 ${color lightgrey}V  (min =  ${color #ddaa00}-3.78 ${color lightgrey}V, max =  ${color #ddaa00}-1.56 ${color lightgrey}V)
+${tab 2650}-WWQWP`   $QW   Temp2(CPU amb):  ${color red}${platform w83627ehf.656 temp 2}°C${color lightgrey}       |    -5V:       ${color #ddaa00}-${i2c 1-0028 in 6} 5.51 ${color lightgrey}V  (min =  ${color #ddaa00}-1.61 ${color lightgrey}V, max =  ${color #ddaa00}-0.24 ${color lightgrey}V)
+${tab 2650} -""~     )V(     Temp3(amb.):	    ${color red}${platform w83627ehf.656 temp 3}°C${color lightgrey}       |    
+
+${tab 2650}$color$stippled_hr
+${tab 2650}${color lightgrey}Networking:
+
+${tab 2650}Hostname: $nodename
+${tab 2650}IP (lo): ${addr lo}
+${tab 2650}IP (eth0): ${addr eth0}
+${tab 2650}Total download: ${totaldown eth0}
+
+${tab 2650}Down:${color #8844ee} ${downspeed eth0} k/s${color lightgrey} ${offset 277}Up:${color #22ccff} ${upspeed eth0} k/s
+${tab 2650}${color lightgrey}${downspeedgraph eth0 32,343 0085CC 0085CC} ${color lightgrey}${upspeedgraph eth0 32,343 0085CC 0085CC}
+
+

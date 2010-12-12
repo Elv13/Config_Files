@@ -1,0 +1,24 @@
+URxvt.tabbed.tabbar-fg:   33
+URxvt.tabbed.tabbar-bg:   17
+URxvt.tabbed.tab-fg:      17
+URxvt.tabbed.tab-bg:      25
+URxvt.perl-ext-common:    default,tabbed
+URxvt.font:               xft:DejaVu Sans Mono:pixelsize=13
+URxvt.background:         black
+URxvt.tintColor:          gray
+URxvt.fading:             50
+URxvt.blurRadius:         7
+URxvt.foreground:         white
+URxvt.transparent:        true
+URxvt.cursorColor:        red
+#URxvt.borderLess:        true
+#URxvt.scrollTtyOutput:   false
+#URxvt.scrollWithBuffer:  true
+URxvt.scrollTtyKeypress:  true
+URxvt.scrollstyle:        rxvt
+URxvt.color2:             #44B716
+URxvt.color10:            #44B716
+URxvt.color6:             #00B7FF
+URxvt.color14:            #00B7FF
+URxvt.color4:             #000CFF
+URxvt.color12:            #000CFF

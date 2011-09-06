@@ -1,0 +1,14 @@
+keycode 106 = exclam Insert
+keycode 111 = parenleft
+keycode 78 = parenright
+keycode 110 = quotedbl
+keycode 77 = dollar
+keycode 82 = ampersand
+keycode 109 = braceright
+keycode 117 = braceleft
+keycode 116 = greater greater
+keycode 113 = less less
+keycode 61 = slash question slash question eacute Eacute
+keycode 48 = apostrophe quotedbl apostrophe quotedbl egrave Egrave
+keycode 35 = bracketright braceright bracketright braceright ccedilla Ccedilla
+keycode 51 = backslash bar backslash bar agrave Agrave

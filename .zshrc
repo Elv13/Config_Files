@@ -1,12 +1,53 @@
+clear
+cat /etc/issue
 # The following lines were added by compinstall
 
-PATH=/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/x86_64-pc-linux-gnu/gcc-bin/4.4.4:/opt/blackdown-jdk-1.4.2.03/bin:/opt/blackdown-jdk-1.4.2.03/jre/bin:/usr/games/bin:/home/kde-devel/kde/bin
+PATH=/usr/local/lib/cw:/usr/lib64/perl5/site_perl/5.12.1/auto/share/dist/Cope:/sbin:/usr/sbin:/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/x86_64-pc-linux-gnu/gcc-bin/4.4.4:/opt/blackdown-jdk-1.4.2.03/bin:/opt/blackdown-jdk-1.4.2.03/jre/bin:/usr/games/bin:/home/kde-devel/kde/bin
+XDG_DATA_DIRS=$XDG_DATA_DIRS:/home/kde-devel/kde/share/akonadi/agents 
 
 export HISTSIZE=2000
 export HISTFILE="$HOME/.zhistory"
 export SAVEHIST=$HISTSIZE
 
+setopt histignoredups
+setopt histignorespace
+setopt hist_ignore_all_dups
+setopt autocd
+#setopt correctall
+setopt no_case_glob
+setopt noequals
 
+alias ls='ls --color=auto -F'
+alias ll='ls -l --color=auto -F'
+alias la='ls -lah --color=auto -F'
+alias tarc="tar -cjvf "
+alias tarx="tax -xpvf "
+alias nn="nano -w "
+alias n="nano -w "
+alias grepkey="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
+alias xrags=xargs
+alias grep="grep --mmap"
+alias greo=grep
+
+#Make ctrl+left/right and ^W work as in any other apps in the universe
+zle -N backward-kill-word-bash backward-kill-word-match
+zstyle ':zle:backward-kill-word-bash' word-style whitespace
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}'
+bindkey '^Q' quoted-insert '^U' vi-kill-line '^W' backward-kill-word-bash
+autoload -U select-word-style
+select-word-style bash
+
+source ~/.zshrc.d/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+ZLS_COLORS="$LS_COLORS"
+
+function svgz2svg {
+  for FILE in "$1";do 
+    cp $FILE /tmp/${$(echo $FILE | sed s/svgz/svg.gz/)##*/} && \
+    gunzip /tmp/${$(echo $FILE | sed s/svgz/svg.gz/)##*/} && \
+    cp /tmp/${$(echo $FILE | sed s/svgz/svg/)##*/} ./;
+  done
+}
 
 autoload zkbd
 if [  "`ls ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE}`" != "" ];then
@@ -84,12 +125,29 @@ function precmd {
 
 setopt extended_glob
 preexec () {
-    if [[ "$TERM" == "screen" ]]; then
-	local CMD=${1[(wr)^(*=*|sudo|-*)]}
-	echo -n "\ek$CMD\e\\"
-    fi
+   echo -n '\033];'$2'\007'
+   if [[ "$TERM" == "screen" ]]; then
+	   local CMD=${1[(wr)^(*=*|sudo|-*)]}
+	   echo -n "\ek$CMD\e\\"
+   fi
 }
 
+function notifyOver {
+   TERMS="$(pgrep urxvt)"
+   TMP_PID=$PPID
+   while [ "$TMP_PID" != "1" ]; do
+      if [ "$(echo $TERMS | grep $TMP_PID)" != "" ]; then
+         echo "naughty.notify_hidden($TMP_PID,'zsh','Command $(history -1) over')" | sudo -u lepagee awesome-client
+         break;
+      fi
+      TMP_PID=`/bin/ps -eo pid,ppid | grep -E "$TMP_PID [ 0-9]" | awk '{print $2}'`
+   done
+}
+
+postexec () {
+   echo '\033]; '$USER: $PWD'\007'
+   notifyOver
+}
 
 setprompt () {
     ###
@@ -178,7 +236,7 @@ fi
     ###
     # Finally, the prompt.
 
-    PROMPT='$PR_SET_CHARSET$PR_STITLE${(e)PR_TITLEBAR}\
+    PROMPT='$(postexec &)$PR_SET_CHARSET$PR_STITLE${(e)PR_TITLEBAR}\
 $PR_CYAN$PR_SHIFT_IN$PR_ULCORNER$PR_BLUE$PR_HBAR$PR_SHIFT_OUT(\
 $USERCOLOR%(!.${PR_RED}%n.%n)$PR_BLUE@%m\
 $PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_CYAN$PR_HBAR${(e)PR_FILLBAR}$PR_BLUE$PR_HBAR$PR_SHIFT_OUT(\
@@ -203,93 +261,3 @@ setprompt
 #%(?..$PR_LIGHT_RED%?$PR_BLUE:)\
 #${(e)PR_APM}\
 
-#KDE stuff
-export KDEDIR=$HOME/kde
-export KDEHOME=$HOME/.kde4
-export KDETMP=/tmp/$USER-kde4
-mkdir -p $KDETMP
-export KDEDIRS=$KDEDIR
-export PREFIX="/home/kde-devel/kde/"
-export PKG_CONFIG_PATH=$KDEDIR/lib/pkgconfig:$PKG_CONFIG_PATH
-export  CXXFLAGS="-Wpointer-arith -Wcast-align -Wsign-compare -Woverloaded-virtual -Wswitch -Wno-unused-parameter -g -O3 -fopenmp -g -O3 -pipe -msse3 -msse2 -msse -mmmx -march=core2"
-export CFLAGS=" -g -O3 -pipe -msse3 -msse2 -msse -mmmx -march=core2" 
-alias nano="nano -w"
-
-# XDG
-unset XDG_DATA_DIRS # to avoid seeing kde3 files from /usr
-unset XDG_CONFIG_DIRS
-
-# you might want to change these:
-export KDE_BUILD=$HOME/kde/build
-export KDE_SRC=$HOME/kde/src
-
-# make the debug output prettier
-export KDE_COLOR_DEBUG=1
-export QTEST_COLORED=1
-
-function cs {
-   # Make sure source directory exists.
-   mkdir -p "$KDE_SRC"
- 
-   # command line argument
-   if test -n "$1"; then
-      cd "$KDE_SRC/$1"
-   else
-      # substitute build dir with src dir
-      dest=`pwd | sed -e s,$KDE_BUILD,$KDE_SRC,`
-      current=`pwd`
-      if [ "$dest" = "$current" ]; then
-         cd "$KDE_SRC"
-      else
-         cd "$dest"
-      fi
-   fi
-}
-
-function cb {
-   # Make sure build directory exists.
-   mkdir -p "$KDE_BUILD"
-
-   # command line argument
-   if test -n "$1"; then
-      cd "$KDE_BUILD/$1"
-      return
-   fi
-   # substitute src dir with build dir
-   dest=`pwd | sed -e s,$KDE_SRC,$KDE_BUILD,`
-   if test ! -d "$dest"; then
-      # build directory does not exist, create
-      mkdir -p "$dest"
-   fi
-   cd "$dest"
-}
-
-function cmakekde {
-   if test -n "$1"; then
-      # srcFolder is defined via command line argument
-      srcFolder="$1"
-   else
-      # get srcFolder for current dir
-      srcFolder=`pwd | sed -e s,$KDE_BUILD,$KDE_SRC,`
-   fi
-   # we are in the src folder, change to build directory
-   # Alternatively, we could just use makeobj in the commands below...
-   current=`pwd`
-   if [ "$srcFolder" = "$current" ]; then
-      cb
-   fi
-   # to enable tests, add -DKDE4_BUILD_TESTS=TRUE to the next line.
-   # you can also change "debugfull" to "debug" to save disk space.
-   cmake "$srcFolder" -GKDevelop3 -DCMAKE_INSTALL_PREFIX=$KDEDIR \
-      -DCMAKE_BUILD_TYPE=debugfull
-
-        # uncomment the following two lines to make builds wait after
-        # configuration step, so that the user can check configure output
-        #echo "Press <ENTER> to continue..."
-        #read userinput
- 
-        # Note: To speed up compiling, change 'make -j2' to 'make -jx',
-        #   where x is your number of processors +1
-        nice make -j5 && \
-        make install;
-}

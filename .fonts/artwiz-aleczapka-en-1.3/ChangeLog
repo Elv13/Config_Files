@@ -1,0 +1,10 @@
+18.08.2003
+	* Fixed glis-bold - now showing in X properly
+
+17.08.2003
+	* Fixed typo in fonts.alias - cure font was ommited.
+	  Thx to ak|ra from #fluxbox, irc.freenode.net
+
+27.07.2003
+	* Fixed font properities
+	* Default encoding is now ISO8859-1

@@ -1,0 +1,48 @@
+DESCRIPTION
+-------------------------------------------------------------------------------
+This is set of (improved) artwiz fonts.
+The ultimate solution to your all problems with artwiz fonts.
+Screenshots: http://artwizaleczapka.sourceforge.net/images/shots/
+
+I like those fonts but couldn't use them with gtk2/kde3 apps anymore.
+The fonts were really messed up, running fc-cache didn't generate proper
+font.cache-1 file (freetype font indexes).
+I only changed font properities (except cursor.pcf) so they are now
+properly recognized as freetype fonts and they still look so damn cool
+as artwiz designed them.
+Note: running mkfontdir will now also generate proper entiries.
+
+
+INSTALLATION
+-------------------------------------------------------------------------------
+Do the following (example for gentoo):
+
+	cd your_font_dir
+	tar xvjf artwiz-aleczapka-<LANG>-<RELEASE>.tar.bz2 
+	cd artwiz-aleczapka-<LANG>-<RELEASE>
+	fc-cache -fv ./
+	
+	Add this path to your /etc/X11/XF86Config config
+	FontPath "your_font_dir/artwiz-aleczapka-<LANG>-<RELEASE>"
+
+	and fontconfig config file (eg. /etc/fonts/local.conf)
+	<dir>your_font_dir/artwiz-aleczapka-<LANG>-<RELEASE>:unscaled</dir>
+
+	restart X
+
+Your installation may vary depending on your distro.
+
+
+
+PROJECT
+-------------------------------------------------------------------------------
+artwiz-aleczapka is released under the terms of GNU General Public License
+(GPL) version 2. Read file 'COPYING' for detailed info.
+
+The project homepage is: http://artwizaleczapka.sourceforge.net
+
+
+CONTACT
+-------------------------------------------------------------------------------
+If you have any questions, bug reports, bug fixes or valid credit card number
+you might want to share write to: Oliwier Ptak <aleczapka at gmx dot net>.

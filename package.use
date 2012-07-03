@@ -75,7 +75,7 @@ sys-devel/gcc graphite
 sys-block/parted device-mapper
 sys-auth/consolekit policykit
 virtual/mysql embedded
-dev-libs/libxml2 icu
+dev-libs/libxml2 icu python
 dev-libs/libgcrypt static-libs
 media-libs/libpng apng static-libs
 media-libs/lcms static-libs
@@ -83,3 +83,8 @@ kde-base/kdepimlibs emantic-desktop
 dev-libs/popt static-libs
 x11-libs/gtk+ nls
 net-p2p/transmission nls
+media-libs/libcanberra gtk
+x11-misc/notification-daemon gnome
+sys-libs/zlib minizip
+app-office/libreoffice gtk gstreamer
+x11-drivers/nvidia-drivers gtk

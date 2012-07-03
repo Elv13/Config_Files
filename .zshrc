@@ -2,7 +2,7 @@ clear
 cat /etc/issue
 # The following lines were added by compinstall
 
-PATH=/usr/local/lib/cw:/usr/lib64/perl5/site_perl/5.12.1/auto/share/dist/Cope:/sbin:/usr/sbin:/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/x86_64-pc-linux-gnu/gcc-bin/4.4.4:/opt/blackdown-jdk-1.4.2.03/bin:/opt/blackdown-jdk-1.4.2.03/jre/bin:/usr/games/bin:/home/kde-devel/kde/bin
+PATH=/home/kde-devel/kde/bin:/usr/local/lib/cw:/usr/lib64/perl5/site_perl/5.12.1/auto/share/dist/Cope:/sbin:/usr/sbin:/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/x86_64-pc-linux-gnu/gcc-bin/4.4.4:/opt/blackdown-jdk-1.4.2.03/bin:/opt/blackdown-jdk-1.4.2.03/jre/bin:/usr/games/bin:/home/kde-devel/kde/bin
 XDG_DATA_DIRS=$XDG_DATA_DIRS:/home/kde-devel/kde/share/akonadi/agents 
 
 export HISTSIZE=2000
@@ -18,7 +18,7 @@ setopt no_case_glob
 setopt noequals
 
 alias ls='ls --color=auto -F'
-alias ll='ls -l --color=auto -F'
+alias ll='ls++'
 alias la='ls -lah --color=auto -F'
 alias tarc="tar -cjvf "
 alias tarx="tax -xpvf "
@@ -26,8 +26,12 @@ alias nn="nano -w "
 alias n="nano -w "
 alias grepkey="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
 alias xrags=xargs
-alias grep="grep --mmap"
 alias greo=grep
+alias xephyr="Xephyr :1 -screen 1680x996"
+alias kdb="sudo killall -9 updatedb"
+alias xdg-edit="nano ~/.local/share/applications/mimeapps.list"
+function fawe {; find ~/.config/awesome/ -iname '*.lua' | xargs grep $1 --color;}
+function breadpath {;awk -F'/' '{printf "\033[48;5;21m\033[38;5;232m\033[1m /";for (i=1;i<=NF;i++) {printf "\033[48;5;%sm\033[38;5;232m\033[1m %s \033[%sm\033[38;5;%sm⮀",15+(i*6),$i,(i<NF)?"48;5;"(15+((i+1)*6)):0,15+(i*6)};print "\n"}' <(pwd);}
 
 #Make ctrl+left/right and ^W work as in any other apps in the universe
 zle -N backward-kill-word-bash backward-kill-word-match
@@ -37,8 +41,11 @@ bindkey '^Q' quoted-insert '^U' vi-kill-line '^W' backward-kill-word-bash
 autoload -U select-word-style
 select-word-style bash
 
+bindkey '^P' push-input
+
 source ~/.zshrc.d/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+eval $( dircolors -b $HOME/.LS_COLORS )
 ZLS_COLORS="$LS_COLORS"
 
 function svgz2svg {
@@ -103,12 +110,12 @@ function precmd {
     PR_PWDLEN=""
     
     local promptsize=${#${(%):---(%n@%m)---()--}}
-    local pwdsize=${#${(%):-%~}}
-    
+    brPwd=$(breadpath)
+    local pwdsize=$(echo $(pwd) | awk -F"/" '{print (2*NF)+length($0)}')
     if [[ "$promptsize + $pwdsize" -gt $TERMWIDTH ]]; then
 	    ((PR_PWDLEN=$TERMWIDTH - $promptsize))
     else
-	PR_FILLBAR="\${(l.(($TERMWIDTH - ($promptsize + $pwdsize)))..${PR_HBAR}.)}"
+		PR_FILLBAR="\${(l.(($TERMWIDTH - ($promptsize + $pwdsize)-3))..${PR_HBAR}.)}"
     fi
 
 
@@ -137,7 +144,7 @@ function notifyOver {
    TMP_PID=$PPID
    while [ "$TMP_PID" != "1" ]; do
       if [ "$(echo $TERMS | grep $TMP_PID)" != "" ]; then
-         echo "naughty.notify_hidden($TMP_PID,'zsh','Command $(history -1) over')" | sudo -u lepagee awesome-client
+         echo "naughty.notify_hidden($TMP_PID,'zsh','Command $(printf '%q' $(history -1)) over')" | sudo -u lepagee awesome-client
          break;
       fi
       TMP_PID=`/bin/ps -eo pid,ppid | grep -E "$TMP_PID [ 0-9]" | awk '{print $2}'`
@@ -149,6 +156,21 @@ postexec () {
    notifyOver
 }
 
+    autoload colors zsh/terminfo
+    if [[ "$terminfo[colors]" -ge 8 ]]; then
+      colors
+    fi
+
+
+    for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
+      eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+      eval PR_${color}BG='%{$terminfo[bold]$bg[${(L)color}]%}'
+      eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
+      (( count = $count + 1 ))
+    done
+    PR_NO_COLOUR="%{$terminfo[sgr0]%}"
+PR_GRAYBG=">"#'%{$terminfo[bold]$bg[${(L)RED}]%}'
+
 setprompt () {
     ###
     # Need this so the prompt will work.
@@ -158,17 +180,19 @@ setprompt () {
 
     ###
     # See if we can use colors.
+#    autoload colors zsh/terminfo
+#    if [[ "$terminfo[colors]" -ge 8 ]]; then
+#		colors
+#    fi
+#
 
-    autoload colors zsh/terminfo
-    if [[ "$terminfo[colors]" -ge 8 ]]; then
-	colors
-    fi
-    for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-      eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
-      eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
-      (( count = $count + 1 ))
-    done
-    PR_NO_COLOUR="%{$terminfo[sgr0]%}"
+#    for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
+#      eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+#      eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
+#      (( count = $count + 1 ))
+#    done
+#    PR_NO_COLOUR="%{$terminfo[sgr0]%}"
+
 
 
     ###
@@ -180,11 +204,12 @@ setprompt () {
     PR_SHIFT_IN="%{$terminfo[smacs]%}"
     PR_SHIFT_OUT="%{$terminfo[rmacs]%}"
     PR_HBAR=${altchar[q]:--}
-    PR_ULCORNER=${altchar[l]:--}
-    PR_LLCORNER=${altchar[m]:--}
-    PR_LRCORNER=${altchar[j]:--}
-    PR_URCORNER=${altchar[k]:--}
-
+#    PR_ULCORNER=${altchar[l]:--}
+#    PR_LLCORNER=${altchar[m]:--}
+#    PR_LRCORNER=${altchar[j]:--}
+#    PR_URCORNER=${altchar[k]:--}
+#╭
+#╰ 
     
     ###
     # Decide if we need to set titlebar text.
@@ -233,21 +258,23 @@ elif [[ $USERNAME == "root" ]]; then
 else
   USERCOLOR=$PR_YELLOW
 fi
+
     ###
     # Finally, the prompt.
 
-    PROMPT='$(postexec &)$PR_SET_CHARSET$PR_STITLE${(e)PR_TITLEBAR}\
-$PR_CYAN$PR_SHIFT_IN$PR_ULCORNER$PR_BLUE$PR_HBAR$PR_SHIFT_OUT(\
-$USERCOLOR%(!.${PR_RED}%n.%n)$PR_BLUE@%m\
-$PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_CYAN$PR_HBAR${(e)PR_FILLBAR}$PR_BLUE$PR_HBAR$PR_SHIFT_OUT(\
-$PR_LIGHT_GREEN%$PR_PWDLEN<...<%~%<<\
-$PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_CYAN$PR_URCORNER$PR_SHIFT_OUT \
+BG_HIGH=$(echo -e "\e[48;5;27m")
+FG_ARROW=$(echo -e "\e[38;5;27m")
+PROMPT='$(postexec &)$PR_SET_CHARSET$PR_STITLE${(e)PR_TITLEBAR}\
+$PR_SHIFT_IN$PR_SHIFT_OUT\
+┏━$brPwd$PR_SHIFT_IN$PR_HBAR$PR_HBAR${(e)PR_FILLBAR}$PR_HBAR$PR_SHIFT_OUT$FG_ARROW⮂$BG_HIGH \
+$USERCOLOR%(!.${PR_RED}%n.%n)@%m \
+$PR_SHIFT_IN$PR_NO_COLOUR$FG_ARROW⮀$PR_NO_COLOUR━┓$PR_SHIFT_OUT \
 
-$PR_CYAN$PR_SHIFT_IN$PR_LLCORNER$PR_BLUE$PR_HBAR$PR_SHIFT_OUT$PR_CYAN:\
+$PR_SHIFT_IN┗━$PR_SHIFT_OUT:\
 $PR_NO_COLOUR '
 
-    RPROMPT=' $PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_BLUE$PR_HBAR$PR_SHIFT_OUT\
-($PR_GREEN%D{%a %H:%M}$PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_CYAN$PR_LRCORNER$PR_SHIFT_OUT$PR_NO_COLOUR'
+    RPROMPT=' $PR_SHIFT_IN$PR_BLUE⮂$PR_NO_COLOUR$PR_BLUEBG $PR_SHIFT_OUT\
+%D{%a %H:%M} $PR_NO_COLOUR$PR_BLUE⮀$PR_SHIFT_IN$PR_NO_COLOUR━┛$PR_SHIFT_OUT$PR_NO_COLOUR'
 
     PS2='$PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
 $PR_BLUE$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT(\

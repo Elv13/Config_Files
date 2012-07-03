@@ -5,6 +5,7 @@ cat /etc/issue
 PATH=/home/kde-devel/kde/bin:/usr/local/lib/cw:/usr/lib64/perl5/site_perl/5.12.1/auto/share/dist/Cope:/sbin:/usr/sbin:/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/x86_64-pc-linux-gnu/gcc-bin/4.4.4:/opt/blackdown-jdk-1.4.2.03/bin:/opt/blackdown-jdk-1.4.2.03/jre/bin:/usr/games/bin:/home/kde-devel/kde/bin
 XDG_DATA_DIRS=$XDG_DATA_DIRS:/home/kde-devel/kde/share/akonadi/agents 
 
+
 export HISTSIZE=2000
 export HISTFILE="$HOME/.zhistory"
 export SAVEHIST=$HISTSIZE

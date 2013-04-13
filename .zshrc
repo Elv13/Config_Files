@@ -32,7 +32,6 @@ alias xephyr="Xephyr :1 -screen 1680x996"
 alias kdb="sudo killall -9 updatedb"
 alias xdg-edit="nano ~/.local/share/applications/mimeapps.list"
 function fawe {; find ~/.config/awesome/ -iname '*.lua' | xargs grep $1 --color;}
-function breadpath {;awk -F'/' '{printf "\033[48;5;21m\033[38;5;232m\033[1m /";for (i=1;i<=NF;i++) {printf "\033[48;5;%sm\033[38;5;232m\033[1m %s \033[%sm\033[38;5;%sm⮀",15+(i*6),$i,(i<NF)?"48;5;"(15+((i+1)*6)):0,15+(i*6)};print "\n"}' <(pwd);}
 
 #Make ctrl+left/right and ^W work as in any other apps in the universe
 zle -N backward-kill-word-bash backward-kill-word-match
@@ -98,6 +97,26 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+USERNAME=`whoami`
+
+if [[ $USERNAME == "lepagee" ]]; then
+  USERCOLOR=$PR_CYAN
+  BASEC=15
+  BASEMUL=6
+elif [[ $USERNAME == "kde-devel" ]]; then
+  USERCOLOR=$PR_GREEN
+  BASEC=22
+  BASEMUL=6
+elif [[ $USERNAME == "root" ]]; then
+  USERCOLOR=$PR_RED
+  BASEC=16
+  BASEMUL=36
+else
+  USERCOLOR=$PR_YELLOW
+fi
+
+function breadpath {;awk -F'/' -v "baseC=$BASEC" -v "baseMul=$BASEMUL" '{printf "\033[48;5;%sm\033[38;5;232m\033[1m /",baseC+baseMul;for (i=1;i<=NF;i++) {printf "\033[48;5;%sm\033[38;5;232m\033[1m %s \033[%sm\033[38;5;%sm⮀",baseC+(i*baseMul),$i,(i<NF)?"48;5;"(baseC+((i+1)*baseMul)):0,baseC+(i*baseMul)};print "\n"}' <(pwd);}
+
 function precmd {
 
     local TERMWIDTH
@@ -145,7 +164,7 @@ function notifyOver {
    TMP_PID=$PPID
    while [ "$TMP_PID" != "1" ]; do
       if [ "$(echo $TERMS | grep $TMP_PID)" != "" ]; then
-         echo "naughty.notify_hidden($TMP_PID,'zsh','Command $(printf '%q' $(history -1)) over')" | sudo -u lepagee awesome-client
+#         echo "naughty.notify_hidden($TMP_PID,'zsh','Command $(printf '%q' $(history -1)) over')" | sudo -u lepagee awesome-client
          break;
       fi
       TMP_PID=`/bin/ps -eo pid,ppid | grep -E "$TMP_PID [ 0-9]" | awk '{print $2}'`
@@ -248,18 +267,6 @@ setprompt () {
 	PR_APM=''
     fi
     
-USERNAME=`whoami`
-
-if [[ $USERNAME == "lepagee" ]]; then
-  USERCOLOR=$PR_CYAN
-elif [[ $USERNAME == "kde-devel" ]]; then
-  USERCOLOR=$PR_GREEN
-elif [[ $USERNAME == "root" ]]; then
-  USERCOLOR=$PR_RED
-else
-  USERCOLOR=$PR_YELLOW
-fi
-
     ###
     # Finally, the prompt.
 

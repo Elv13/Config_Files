@@ -2,7 +2,8 @@ URxvt.tabbed.tabbar-fg:    33
 URxvt.tabbed.tabbar-bg:    17
 URxvt.tabbed.tab-fg:       17
 URxvt.tabbed.tab-bg:       25
-URxvt.perl-ext-common:     default,dbus,matcher
+URxvt.perl-ext-common:     default,matcher
+URxvt*urgentOnBell:        true
 #URxvt.font:                xft:DejaVu Sans Mono:pixelsize=13
 #urxvt*font: -*-terminus-*-*-*-*-12-*-*-*-*-*-*-*
 urxvt*font: xft:UbuntuMono-B:pixelsize=13

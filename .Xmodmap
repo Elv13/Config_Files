@@ -12,3 +12,7 @@ keycode 61 = slash question slash question eacute Eacute
 keycode 48 = apostrophe quotedbl apostrophe quotedbl egrave Egrave
 keycode 35 = bracketright braceright bracketright braceright ccedilla Ccedilla
 keycode 51 = backslash bar backslash bar agrave Agrave
+keycode 136 = F13
+keycode 220 = F14
+keycode 209 = F15
+keycode 210 = F16

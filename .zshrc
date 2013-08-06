@@ -67,17 +67,17 @@ source ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE}
 #    [[ -n ${key[Left]} ]] && bindkey "${key[Left]}" backward-char
 #    [[ -n ${key[Right]} ]] && bindkey "${key[Right]}" forward-char
 
-[[ -n ${key[Backspace]} ]] && bindkey "${key[Backspace]}" backward-delete-char
-[[ -n ${key[Insert]} ]] && bindkey "${key[Insert]}" overwrite-mode
-[[ -n ${key[Home]} ]] && bindkey "${key[Home]}" beginning-of-line
-[[ -n ${key[PageUp]} ]] && bindkey "${key[PageUp]}" history-search-backward #up-line-or-history
-[[ -n ${key[Delete]} ]] && bindkey "${key[Delete]}" delete-char
-[[ -n ${key[End]} ]] && bindkey "${key[End]}" end-of-line
-[[ -n ${key[PageDown]} ]] && bindkey "${key[PageDown]}" history-search-forward #down-line-or-history
-[[ -n ${key[Up]} ]] && bindkey "${key[Up]}" up-line-or-history #up-line-or-search
-[[ -n ${key[Left]} ]] && bindkey "${key[Left]}" backward-char
-[[ -n ${key[Down]} ]] && bindkey "${key[Down]}" down-line-or-history #down-line-or-search
-[[ -n ${key[Right]} ]] && bindkey "${key[Right]}" forward-char
+[[ -n ${key[Backspace]} ]]  && bindkey "${key[Backspace]}" backward-delete-char
+[[ -n ${key[Insert]} ]]     && bindkey "${key[Insert]}"    overwrite-mode
+[[ -n ${key[Home]} ]]       && bindkey "${key[Home]}"      beginning-of-line
+[[ -n ${key[PageUp]} ]]     && bindkey "${key[PageUp]}"    history-search-backward #up-line-or-history
+[[ -n ${key[Delete]} ]]     && bindkey "${key[Delete]}"    delete-char
+[[ -n ${key[End]} ]]        && bindkey "${key[End]}"       end-of-line
+[[ -n ${key[PageDown]} ]]   && bindkey "${key[PageDown]}"  history-search-forward #down-line-or-history
+[[ -n ${key[Up]} ]]         && bindkey "${key[Up]}"        up-line-or-history #up-line-or-search
+[[ -n ${key[Left]} ]]       && bindkey "${key[Left]}"      backward-char
+[[ -n ${key[Down]} ]]       && bindkey "${key[Down]}"      down-line-or-history #down-line-or-search
+[[ -n ${key[Right]} ]]      && bindkey "${key[Right]}"     dforward-char
 
 #bindkey "^[[5C" forward-word
 #bindkey "^[[5D" backward-word
@@ -116,7 +116,12 @@ else
   USERCOLOR=$PR_YELLOW
 fi
 
-function breadpath {;awk -F'/' -v "baseC=$BASEC" -v "baseMul=$BASEMUL" '{printf "\033[48;5;%sm\033[38;5;232m\033[1m /",baseC+baseMul;for (i=1;i<=NF;i++) {printf "\033[48;5;%sm\033[38;5;232m\033[1m %s \033[%sm\033[38;5;%sm⮀",baseC+(i*baseMul),$i,(i<NF)?"48;5;"(baseC+((i+1)*baseMul)):0,baseC+(i*baseMul)};print "\n"}' <(pwd);}
+function breadpath {;awk -F'/' -v "baseC=$BASEC" -v "baseMul=$BASEMUL" '{
+    printf "\033[48;5;%sm\033[38;5;232m\033[1m /",baseC+baseMul;
+    for (i=1;i<=NF;i++) {
+        printf "\033[48;5;%sm\033[38;5;232m\033[1m %s \033[%sm\033[38;5;%sm⮀",baseC+(i*baseMul),$i,(i<NF)?"48;5;"(baseC+((i+1)*baseMul)):0,baseC+(i*baseMul)
+    };
+    print "\n"}' <(pwd);}
 
 function precmd {
 
@@ -271,24 +276,25 @@ setprompt () {
     ###
     # Finally, the prompt.
 
-BG_HIGH=$(echo -e "\e[48;5;27m")
+BG_HIGH=$(echo -e "\e[48;5;27m\e[38;5;231m\033[1m")
 FG_ARROW=$(echo -e "\e[38;5;27m")
 PROMPT='$(postexec &)$PR_SET_CHARSET$PR_STITLE${(e)PR_TITLEBAR}\
 $PR_SHIFT_IN$PR_SHIFT_OUT\
-┏━$brPwd$PR_SHIFT_IN$PR_HBAR$PR_HBAR${(e)PR_FILLBAR}$PR_HBAR$PR_SHIFT_OUT$FG_ARROW⮂$BG_HIGH \
+┏━$brPwd$FG_ARROW$PR_SHIFT_IN$PR_HBAR$PR_HBAR${(e)PR_FILLBAR}$PR_HBAR$PR_SHIFT_OUT$FG_ARROW⮂$BG_HIGH \
 $USERCOLOR%(!.${PR_RED}%n.%n)@%m \
 $PR_SHIFT_IN$PR_NO_COLOUR$FG_ARROW⮀$PR_NO_COLOUR━┓$PR_SHIFT_OUT \
 
 $PR_SHIFT_IN┗━$PR_SHIFT_OUT:\
 $PR_NO_COLOUR '
 
-    RPROMPT=' $PR_SHIFT_IN$PR_BLUE⮂$PR_NO_COLOUR$PR_BLUEBG $PR_SHIFT_OUT\
+    RPROMPT=' $PR_SHIFT_IN$PR_LIGHT_BLUE⮂$PR_NO_COLOUR$PR_BLUEBG$PR_YELLOW$PR_SHIFT_OUT\
 %D{%a %H:%M} $PR_NO_COLOUR$PR_BLUE⮀$PR_SHIFT_IN$PR_NO_COLOUR━┛$PR_SHIFT_OUT$PR_NO_COLOUR'
 
     PS2='$PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
 $PR_BLUE$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT(\
 $PR_LIGHT_GREEN%_$PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
 $PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT$PR_NO_COLOUR '
+
 }
 
 setprompt
@@ -296,4 +302,10 @@ setprompt
 #$PR_LIGHT_BLUE:%(!.$PR_RED.$PR_WHITE)%#$PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
 #%(?..$PR_LIGHT_RED%?$PR_BLUE:)\
 #${(e)PR_APM}\
+
+\
+
+\
+
+M}\
 

@@ -16,3 +16,6 @@ keycode 136 = F13
 keycode 220 = F14
 keycode 209 = F15
 keycode 210 = F16
+keycode 143 = F17
+keycode 153 = XF86AudioNext
+keycode 176 = XF86AudioPrev

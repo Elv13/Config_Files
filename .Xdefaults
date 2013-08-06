@@ -1,20 +1,23 @@
-URxvt.tabbed.tabbar-fg:    33
-URxvt.tabbed.tabbar-bg:    17
-URxvt.tabbed.tab-fg:       17
-URxvt.tabbed.tab-bg:       25
+!-----------------------------URXVT EXTENSIONS---------------------------------!
+!URxvt.tabbed.tabbar-fg:    33
+!URxvt.tabbed.tabbar-bg:    17
+!URxvt.tabbed.tab-fg:       17
+!URxvt.tabbed.tab-bg:       25
 URxvt.perl-ext-common:     default,matcher
-URxvt*urgentOnBell:        true
+
+! ------------------------------------ FONTS ----------------------------------!
 #URxvt.font:                xft:DejaVu Sans Mono:pixelsize=13
 #urxvt*font: -*-terminus-*-*-*-*-12-*-*-*-*-*-*-*
 urxvt*font: xft:UbuntuMono-B:pixelsize=13
 #urxvt*font: xft:MonospaceRegular
 #urxvt*boldFont: xft:Terminus
-!asdsdURxvt.background:    black
-URxvt.background:          #111111
+
+
+!--------------------------------URXVT OPTS------------------------------------!
+URxvt.termName: xterm
 URxvt.tintColor:           #757575
 URxvt.fading:              50
 !URxvt.blurRadius:         7
-URxvt.foreground:          #D9D9D9
 !URxvt.transparent:        true
 URxvt.cursorColor:         red
 URxvt.borderLess:          false
@@ -23,14 +26,9 @@ URxvt.scrollWithBuffer:    true
 URxvt.scrollTtyKeypress:   true
 URxvt.scrollstyle:         rxvt
 URxvt.pointerColor         green
-URxvt.highlightTextColor:  #B9B9B9
-URxvt.highlightColor:      #1A1A1A
-!URxvt.color2:             #44B716
-!URxvt.color10:            #44B716
-!URxvt.color6:             #00B7FF
-!URxvt.color14:            #00B7FF
-!URxvt.color4:             #000CFF
-!URxvt.color12:            #000CFF
+URxvt*urgentOnBell:        true
+
+
 
 
 ! Normal
@@ -42,16 +40,6 @@ URxvt.highlightColor:      #1A1A1A
 ! color5    purple
 ! color6    cyan
 ! color7    white
-
-urxvt*color0:    #6c6c6c
-urxvt*color1:    #983434
-urxvt*color2:    #19593D
-urxvt*color3:    #D5C59B
-urxvt*color4:    #555E6E
-urxvt*color5:    #5C69A5
-urxvt*color6:    #54C1E5
-urxvt*color7:    #D3D3D3
-
 ! Light
 ! color8    black
 ! color9    red
@@ -62,19 +50,64 @@ urxvt*color7:    #D3D3D3
 ! color14    cyan
 ! color15    white
 
-urxvt*color8:    #747474
-urxvt*color9:    #E04C4C
-urxvt*color10:   #24771F
-urxvt*color11:   #3A4CCD
-urxvt*color12:   #4C70AE
-urxvt*color13:   #7889D7
-urxvt*color14:   #5DD7FF
-urxvt*color15:   #ffffff
 
-URxvt*iconFile:         /home/lepagee/.config/awesome/theme/darkBlue/Icon/term_invert.png
+!BG/FG
+URxvt.background:          #050505
+URxvt.foreground:          #718691
+URxvt.highlightTextColor:  #B9B9B9
+URxvt.highlightColor:      #1A1A1A
+URxvt.scrollColor:         #333333
+
+!black
+*color0:  #333333
+*color8:  #101F3D
+!red
+*color1:  #8A2B57
+*color9:  #BF4D80
+!green
+*color2:  #237474
+*color10: #53A6A6
+!yellow
+*color3:  #7C7C99
+*color11: #9E9ECB
+!blue
+*color4:  #457AB4
+*color12: #477AB3
+!magenta
+*color5:  #5E448D
+*color13: #7E62B3
+!cyan
+*color6:  #24384D
+*color14: #6096BF
+!white
+*color7:  #718691
+*color15: #C0C0C0
+
+
+!----------------------------ICON AND BACKGROUND-------------------------------!
+URxvt*iconFile: /home/lepagee/.config/awesome/blind/arrow/Icon/term.png
 
 URxvt*urlLauncher: /home/lepagee/firefox/firefox
 URxvt*underlineColor: #0077FF
 
 
-#URxvt*backgroundPixmap: /home/lepagee/html2.png;0x0+95+95:
+URxvt*backgroundPixmap: /home/lepagee/Graphisme/LGO.png;0x0+97+97:
+
+!URxvt.background-expr: align 1,1,{ load "/home/lepagee/Graphisme/rect2985-0-6.png" }ct2985-0-6.png" }}g" }
+URxvt.iso14755: true
+URxvt.iso14755_52: false
+55: true
+URxvt.iso14755_52: false
+se
+5: true
+URxvt.iso14755_52: false
+: true
+URxvt.iso14755_52: false
+t2985-0-6.png" }}g" }
+URxvt.iso14755: true
+URxvt.iso14755_52: false
+pagee/Graphisme/rect2985-0-6.png;0x0+95+95:
+
+!URxvt.background-expr: align 1,1,{ load "/home/lepagee/Graphisme/rect2985-0-6.png" }ct2985-0-6.png" }}g" }
+URxvt.iso14755: true
+URxvt.iso14755_52: false

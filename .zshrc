@@ -1,5 +1,5 @@
 clear
-cat /etc/issue
+source /etc/issue
 # The following lines were added by compinstall
 
 PATH=/home/kde-devel/kde/bin:/usr/local/lib/cw:/usr/lib64/perl5/site_perl/5.12.1/auto/share/dist/Cope:/sbin:/usr/sbin:/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/x86_64-pc-linux-gnu/gcc-bin/4.4.4:/opt/blackdown-jdk-1.4.2.03/bin:/opt/blackdown-jdk-1.4.2.03/jre/bin:/usr/games/bin:/home/kde-devel/kde/bin
@@ -31,6 +31,7 @@ alias greo=grep
 alias xephyr="Xephyr :1 -screen 1680x996"
 alias kdb="sudo killall -9 updatedb"
 alias xdg-edit="nano ~/.local/share/applications/mimeapps.list"
+alias bell="echo '\a'"
 function fawe {; find ~/.config/awesome/ -iname '*.lua' | xargs grep $1 --color;}
 
 #Make ctrl+left/right and ^W work as in any other apps in the universe

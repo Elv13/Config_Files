@@ -34,6 +34,8 @@ alias xdg-edit="nano ~/.local/share/applications/mimeapps.list"
 alias bell="echo '\a'"
 function fawe {; find ~/.config/awesome/ -iname '*.lua' | xargs grep $1 --color;}
 
+function dnsrestart() {sudo ifconfig eth0 10.10.10.116 && ssh root@10.10.10.1 /etc/init.d/dnsmasq restart}
+
 #Make ctrl+left/right and ^W work as in any other apps in the universe
 zle -N backward-kill-word-bash backward-kill-word-match
 zstyle ':zle:backward-kill-word-bash' word-style whitespace
@@ -57,6 +59,23 @@ function svgz2svg {
   done
 }
 
+function git_status() {
+    GIT_BRANCH=$(git rev-parse  --abbrev-ref HEAD)
+
+    if [ $? -eq 0 ]; then
+    local CYAN="\[\033[0;36m\]"
+        dfs=$(git diff --shortstat | sed "s/ file changed/☢/;s/ insertion//;s/ deletion//")
+        DIFF_STAT=$(echo $dfs | sed "s/(+)/$PR_GREEN%B+$PR_WHITE%B/;s/(-)/$PR_RED%B-/;s/,//;s/,//")
+        echo -e " $GIT_BRANCH$DIFF_STAT"
+        dfs=$(echo $dfs | sed "s/(+)/+/;s/(-)/-/;s/,//;s/,//")
+        return ${#dfs}
+    else
+        local hn = $(whoami)@$(hostname)
+        echo $hn
+        return ${#hn}
+    fi
+}
+
 autoload zkbd
 if [  "`ls ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE}`" != "" ];then
 else
@@ -77,7 +96,7 @@ source ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE}
 [[ -n ${key[Up]} ]]         && bindkey "${key[Up]}"        up-line-or-history #up-line-or-search
 [[ -n ${key[Left]} ]]       && bindkey "${key[Left]}"      backward-char
 [[ -n ${key[Down]} ]]       && bindkey "${key[Down]}"      down-line-or-history #down-line-or-search
-[[ -n ${key[Right]} ]]      && bindkey "${key[Right]}"     dforward-char
+[[ -n ${key[Right]} ]]      && bindkey "${key[Right]}"     forward-char
 
 #bindkey "^[[5C" forward-word
 #bindkey "^[[5D" backward-word
@@ -134,8 +153,8 @@ function precmd {
     
     PR_FILLBAR=""
     PR_PWDLEN=""
-    
-    local promptsize=${#${(%):---(%n@%m)---()--}}
+    git_status 2> /dev/null > /dev/null
+    local promptsize=$(( $? + 19))
     brPwd=$(breadpath)
     local pwdsize=$(echo $(pwd) | awk -F"/" '{print (2*NF)+length($0)}')
     if [[ "$promptsize + $pwdsize" -gt $TERMWIDTH ]]; then
@@ -276,24 +295,32 @@ setprompt () {
     ###
     # Finally, the prompt.
 
-BG_HIGH=$(echo -e "\e[48;5;27m\e[38;5;231m\033[1m")
-FG_ARROW=$(echo -e "\e[38;5;27m")
+if [ "$TERM" != "linux" ]; then
+
+BG_HIGH=$(echo -e "\e[48;5;$(($BASEC + $BASEMUL + $BASEMUL ))m\e[38;5;231m\033[1m")
+FG_ARROW=$(echo -e "\e[38;5;$(($BASEC + $BASEMUL + $BASEMUL ))m")
 PROMPT='$(postexec &)$PR_SET_CHARSET$PR_STITLE${(e)PR_TITLEBAR}\
 $PR_SHIFT_IN$PR_SHIFT_OUT\
 ┏━$brPwd$FG_ARROW$PR_SHIFT_IN$PR_HBAR$PR_HBAR${(e)PR_FILLBAR}$PR_HBAR$PR_SHIFT_OUT$FG_ARROW⮂$BG_HIGH \
-$USERCOLOR%(!.${PR_RED}%n.%n)@%m \
+$USERCOLOR$(git_status) \
 $PR_SHIFT_IN$PR_NO_COLOUR$FG_ARROW⮀$PR_NO_COLOUR━┓$PR_SHIFT_OUT \
 
 $PR_SHIFT_IN┗━$PR_SHIFT_OUT:\
 $PR_NO_COLOUR '
 
-    RPROMPT=' $PR_SHIFT_IN$PR_LIGHT_BLUE⮂$PR_NO_COLOUR$PR_BLUEBG$PR_YELLOW$PR_SHIFT_OUT\
+RPROMPT=' $PR_SHIFT_IN$PR_LIGHT_BLUE⮂$PR_NO_COLOUR$PR_BLUEBG$PR_YELLOW$PR_SHIFT_OUT\
 %D{%a %H:%M} $PR_NO_COLOUR$PR_BLUE⮀$PR_SHIFT_IN$PR_NO_COLOUR━┛$PR_SHIFT_OUT$PR_NO_COLOUR'
 
-    PS2='$PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
+PS2='$PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
 $PR_BLUE$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT(\
 $PR_LIGHT_GREEN%_$PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
 $PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT$PR_NO_COLOUR '
+
+else
+
+PS1='>'
+
+fi
 
 }
 
@@ -302,6 +329,28 @@ setprompt
 #$PR_LIGHT_BLUE:%(!.$PR_RED.$PR_WHITE)%#$PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
 #%(?..$PR_LIGHT_RED%?$PR_BLUE:)\
 #${(e)PR_APM}\
+
+\
+
+\
+
+M}\
+
+}\
+
+:)\
+#${(e)PR_APM}\
+
+\
+
+\
+
+M}\
+
+
+M}\
+
+e)PR_APM}\
 
 \
 

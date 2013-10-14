@@ -53,7 +53,7 @@ URxvt*urgentOnBell:        true
 
 !BG/FG
 URxvt.background:          #050505
-URxvt.foreground:          #718691
+URxvt.foreground:          #96B3C1
 URxvt.highlightTextColor:  #B9B9B9
 URxvt.highlightColor:      #1A1A1A
 URxvt.scrollColor:         #333333
@@ -96,7 +96,8 @@ URxvt*backgroundPixmap: /home/lepagee/Graphisme/LGO.png;0x0+97+97:
 !URxvt.background-expr: align 1,1,{ load "/home/lepagee/Graphisme/rect2985-0-6.png" }ct2985-0-6.png" }}g" }
 URxvt.iso14755: true
 URxvt.iso14755_52: false
-55: true
+55: tru
+
 URxvt.iso14755_52: false
 se
 5: true
@@ -106,7 +107,7 @@ URxvt.iso14755_52: false
 t2985-0-6.png" }}g" }
 URxvt.iso14755: true
 URxvt.iso14755_52: false
-pagee/Graphisme/rect2985-0-6.png;0x0+95+95:
+!pagee/Graphisme/rect2985-0-6.png;0x0+95+95:
 
 !URxvt.background-expr: align 1,1,{ load "/home/lepagee/Graphisme/rect2985-0-6.png" }ct2985-0-6.png" }}g" }
 URxvt.iso14755: true

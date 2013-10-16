@@ -119,6 +119,13 @@ compinit
 
 USERNAME=`whoami`
 
+#Source all files in ~/.zshrc.d/groups/$USERNAME
+if [ -d ~/.zshrc.d/groups/$USERNAME ]; then
+    for files in $(ls ~/.zshrc.d/groups/$USERNAME); do
+        source ~/.zshrc.d/groups/$USERNAME/$files
+    done
+fi
+
 if [[ $USERNAME == "lepagee" ]]; then
   USERCOLOR=$PR_CYAN
   BASEC=15
@@ -333,6 +340,8 @@ setprompt
 \
 
 \
+
+M}\
 
 M}\
 

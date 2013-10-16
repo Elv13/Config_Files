@@ -126,18 +126,8 @@ if [ -d ~/.zshrc.d/groups/$USERNAME ]; then
     done
 fi
 
-if [[ $USERNAME == "lepagee" ]]; then
-  USERCOLOR=$PR_CYAN
-  BASEC=15
-  BASEMUL=6
-elif [[ $USERNAME == "kde-devel" ]]; then
-  USERCOLOR=$PR_GREEN
-  BASEC=22
-  BASEMUL=6
-elif [[ $USERNAME == "root" ]]; then
-  USERCOLOR=$PR_RED
-  BASEC=16
-  BASEMUL=36
+if [ -e ~/.zshrc.d/usercolor/$USERNAME ]; then
+  source ~/.zshrc.d/usercolor/$USERNAME
 else
   USERCOLOR=$PR_YELLOW
 fi
@@ -322,26 +312,4 @@ PS2='$PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
 $PR_BLUE$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT(\
 $PR_LIGHT_GREEN%_$PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
 $PR_CYAN$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT$PR_NO_COLOUR '
-
-else
-
-PS1='>'
-
-fi
-
-}
-
-setprompt
-
-#$PR_LIGHT_BLUE:%(!.$PR_RED.$PR_WHITE)%#$PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
-#%(?..$PR_LIGHT_RED%?$PR_BLUE:)\
-#${(e)PR_APM}\
-
-\
-
-\
-
-M}\
-
-M}\
 

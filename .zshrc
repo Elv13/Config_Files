@@ -60,19 +60,19 @@ function svgz2svg {
 }
 
 function git_status() {
-    GIT_BRANCH=$(git rev-parse  --abbrev-ref HEAD)
+    #Return 0 if the folder is not versionned, branch name otherwise
+    GIT_BRANCH=$(git rev-parse  --abbrev-ref HEAD 2> /dev/null)
 
     if [ $? -eq 0 ]; then
-    local CYAN="\[\033[0;36m\]"
-        dfs=$(git diff --shortstat | sed "s/ file changed/☢/;s/ insertion//;s/ deletion//")
+        dfs=$(git diff --shortstat | sed "s/ file changed/☢/;s/ insertion//;s/ deletion//;s/ files changed/☢/")
         DIFF_STAT=$(echo $dfs | sed "s/(+)/$PR_GREEN%B+$PR_WHITE%B/;s/(-)/$PR_RED%B-/;s/,//;s/,//")
+        dfs=$(echo $dfs | sed "s/(+)/+/;s/(-)/-/;s/,//;s/,//") #Do the same thing without colors
         echo -e " $GIT_BRANCH$DIFF_STAT"
-        dfs=$(echo $dfs | sed "s/(+)/+/;s/(-)/-/;s/,//;s/,//")
-        return ${#dfs}
+        return $(( ${#dfs} + 19 )) #String length
     else
-        local hn = $(whoami)@$(hostname)
-        echo $hn
-        return ${#hn}
+        HOSTN=$(whoami)@$(hostname)
+        echo $HOSTN
+        return $(( ${#HOSTN} + 11 )) #String length
     fi
 }
 
@@ -154,7 +154,7 @@ function precmd {
     PR_FILLBAR=""
     PR_PWDLEN=""
     git_status 2> /dev/null > /dev/null
-    local promptsize=$(( $? + 19))
+    local promptsize=$(( $? ))
     brPwd=$(breadpath)
     local pwdsize=$(echo $(pwd) | awk -F"/" '{print (2*NF)+length($0)}')
     if [[ "$promptsize + $pwdsize" -gt $TERMWIDTH ]]; then
@@ -329,28 +329,6 @@ setprompt
 #$PR_LIGHT_BLUE:%(!.$PR_RED.$PR_WHITE)%#$PR_BLUE)$PR_SHIFT_IN$PR_HBAR$PR_SHIFT_OUT\
 #%(?..$PR_LIGHT_RED%?$PR_BLUE:)\
 #${(e)PR_APM}\
-
-\
-
-\
-
-M}\
-
-}\
-
-:)\
-#${(e)PR_APM}\
-
-\
-
-\
-
-M}\
-
-
-M}\
-
-e)PR_APM}\
 
 \
 

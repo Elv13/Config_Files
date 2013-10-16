@@ -1,0 +1,126 @@
+#KDE stuff
+export KDEDIR=$HOME/kde
+export KDEHOME=$HOME/.kde4
+export KDETMP=/tmp/$USER-kde4
+mkdir -p $KDETMP
+export KDEDIRS=$KDEDIR
+export PREFIX="/home/kde-devel/kde/"
+export PKG_CONFIG_PATH=$KDEDIR/lib/pkgconfig:$PKG_CONFIG_PATH
+export  CXXFLAGS="-Wpointer-arith -Wcast-align -Wsign-compare -Woverloaded-virtual -Wswitch -Wno-unused-parameter -g -O3 -fopenmp -g -O3 -pipe -msse3 -msse2 -msse -mmmx -march=core2"
+export CFLAGS=" -g -O3 -pipe -msse3 -msse2 -msse -mmmx -march=core2" 
+alias nano="nano -w"
+
+# XDG
+unset XDG_DATA_DIRS # to avoid seeing kde3 files from /usr
+unset XDG_CONFIG_DIRS
+
+# you might want to change these:
+export KDE_BUILD=$HOME/kde/build
+export KDE_SRC=$HOME/kde/src
+
+# make the debug output prettier
+export KDE_COLOR_DEBUG=1
+export QTEST_COLORED=1
+
+function cs {
+   # Make sure source directory exists.
+   mkdir -p "$KDE_SRC"
+ 
+   # command line argument
+   if test -n "$1"; then
+      cd "$KDE_SRC/$1"
+   else
+      # substitute build dir with src dir
+      dest=`pwd | sed -e s,$KDE_BUILD,$KDE_SRC,`
+      current=`pwd`
+      if [ "$dest" = "$current" ]; then
+         cd "$KDE_SRC"
+      else
+         cd "$dest"
+      fi
+   fi
+}
+
+function cb {
+   # Make sure build directory exists.
+   mkdir -p "$KDE_BUILD"
+
+   # command line argument
+   if test -n "$1"; then
+      cd "$KDE_BUILD/$1"
+      return
+   fi
+   # substitute src dir with build dir
+   dest=`pwd | sed -e s,$KDE_SRC,$KDE_BUILD,`
+   if test ! -d "$dest"; then
+      # build directory does not exist, create
+      mkdir -p "$dest"
+   fi
+   cd "$dest"
+}
+
+function cmakekde {
+   if test -n "$1"; then
+      # srcFolder is defined via command line argument
+      srcFolder="$1"
+   else
+      # get srcFolder for current dir
+      srcFolder=`pwd | sed -e s,$KDE_BUILD,$KDE_SRC,`
+   fi
+   # we are in the src folder, change to build directory
+   # Alternatively, we could just use makeobj in the commands below...
+   current=`pwd`
+   if [ "$srcFolder" = "$current" ]; then
+      cb
+   fi
+   # to enable tests, add -DKDE4_BUILD_TESTS=TRUE to the next line.
+   # you can also change "debugfull" to "debug" to save disk space.
+   cmake "$srcFolder" -GKDevelop3 -DCMAKE_INSTALL_PREFIX=$KDEDIR \
+      -DCMAKE_BUILD_TYPE=Release
+
+        # uncomment the following two lines to make builds wait after
+        # configuration step, so that the user can check configure output
+        #echo "Press <ENTER> to continue..."
+        #read userinput
+ 
+        # Note: To speed up compiling, change 'make -j2' to 'make -jx',
+        #   where x is your number of processors +1
+        nice make -j5 && \
+        make install;
+}
+
+function cmakekde-dbg {
+   if test -n "$1"; then
+      # srcFolder is defined via command line argument
+      srcFolder="$1"
+   else
+      # get srcFolder for current dir
+      srcFolder=`pwd | sed -e s,$KDE_BUILD,$KDE_SRC,`
+   fi
+   # we are in the src folder, change to build directory
+   # Alternatively, we could just use makeobj in the commands below...
+   current=`pwd`
+   if [ "$srcFolder" = "$current" ]; then
+      cb
+   fi
+   # to enable tests, add -DKDE4_BUILD_TESTS=TRUE to the next line.
+   # you can also change "debugfull" to "debug" to save disk space.
+   cmake "$srcFolder" -GKDevelop3 -DCMAKE_INSTALL_PREFIX=$KDEDIR \
+      -DCMAKE_BUILD_TYPE=debugfull
+
+        # uncomment the following two lines to make builds wait after
+        # configuration step, so that the user can check configure output
+        #echo "Press <ENTER> to continue..."
+        #read userinput
+ 
+        # Note: To speed up compiling, change 'make -j2' to 'make -jx',
+        #   where x is your number of processors +1
+        nice make -j5 && \
+        make install;
+}
+
+
+function kde-git {
+ git clone git://anongit.kde.org/$1
+}
+TERM=xterm

@@ -46,7 +46,7 @@ select-word-style bash
 
 bindkey '^P' push-input
 
-source ~/.zshrc.d/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zshrc.d/external/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval $( dircolors -b $HOME/.LS_COLORS )
 ZLS_COLORS="$LS_COLORS"

@@ -25,6 +25,7 @@ alias tarc="tar -cjvf "
 alias tarx="tax -xpvf "
 alias nn="nano -w "
 alias n="nano -w "
+alias nano="nano -w"
 alias grepkey="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
 alias xrags=xargs
 alias greo=grep
@@ -32,9 +33,16 @@ alias xephyr="Xephyr :1 -screen 1680x996"
 alias kdb="sudo killall -9 updatedb"
 alias xdg-edit="nano ~/.local/share/applications/mimeapps.list"
 alias bell="echo '\a'"
+alias lmod="find /lib/modules/`uname -r` -iname '*.ko'"
+alias eacapeurl="sed -e's/%\([0-9A-F][0-9A-F]\)/\\\\\x\1/g'"
+alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
+
 function fawe {; find ~/.config/awesome/ -iname '*.lua' | xargs grep $1 --color;}
 
 function dnsrestart() {sudo ifconfig eth0 10.10.10.116 && ssh root@10.10.10.1 /etc/init.d/dnsmasq restart}
+
+function killawesome() {/bin/ps aux | grep awesome | grep -v tty | grep -v grep | grep -vE "(vi|vim|nano|kate|emacs)" | awk '{print $2}' | xargs -i kill -9 "{}"}
+function fixawperm() {find /usr/share/awesome/ -iname '*.lua' | xargs sudo chmod 777}
 
 #Make ctrl+left/right and ^W work as in any other apps in the universe
 zle -N backward-kill-word-bash backward-kill-word-match
@@ -43,6 +51,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}'
 bindkey '^Q' quoted-insert '^U' vi-kill-line '^W' backward-kill-word-bash
 autoload -U select-word-style
 select-word-style bash
+autoload -Uz url-quote-magic; zle -N self-insert url-quote-magic
 
 bindkey '^P' push-input
 

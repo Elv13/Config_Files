@@ -11,6 +11,7 @@ URxvt.perl-ext-common:     default,matcher
 urxvt*font: xft:UbuntuMono-B:pixelsize=13
 #urxvt*font: xft:MonospaceRegular
 #urxvt*boldFont: xft:Terminus
+urxvt.imLocale: en_US.UTF-8 
 
 
 !--------------------------------URXVT OPTS------------------------------------!
@@ -91,7 +92,7 @@ URxvt*urlLauncher: /home/lepagee/firefox/firefox
 URxvt*underlineColor: #0077FF
 
 
-URxvt*backgroundPixmap: /home/lepagee/Graphisme/LGO.png;0x0+97+97:
+!URxvt*backgroundPixmap: /home/lepagee/Graphisme/LGO.png;0x0+97+97:
 
 !URxvt.background-expr: align 1,1,{ load "/home/lepagee/Graphisme/rect2985-0-6.png" }ct2985-0-6.png" }}g" }
 URxvt.iso14755: true

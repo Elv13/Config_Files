@@ -2,11 +2,13 @@ clear
 source /etc/issue
 # The following lines were added by compinstall
 
-PATH=/home/kde-devel/kde/bin:/usr/local/lib/cw:/usr/lib64/perl5/site_perl/5.12.1/auto/share/dist/Cope:/sbin:/usr/sbin:/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/x86_64-pc-linux-gnu/gcc-bin/4.4.4:/opt/blackdown-jdk-1.4.2.03/bin:/opt/blackdown-jdk-1.4.2.03/jre/bin:/usr/games/bin:/home/kde-devel/kde/bin
+PATH=/sbin:/usr/sbin:/usr/local/bin:/usr/bin:/bin:$HOME/config_files/scripts/:$HOME/prefix/bin/
 XDG_DATA_DIRS=$XDG_DATA_DIRS:/home/kde-devel/kde/share/akonadi/agents:$HOME/prefix/share
 QT_STYLE_OVERRIDE="breeze"
 export QT_STYLE_OVERRIDE="breeze"
 QT_PLUGIN_PATH=$HOME/prefix/lib64/plugins
+
+export XAUTHORITY=$HOME/.Xauthority
 
 export HISTSIZE=2000
 export HISTFILE="$HOME/.zhistory"
@@ -24,6 +26,7 @@ setopt noequals
 setopt IGNORE_EOF
 bindkey '^D' backward-char
 
+alias gdb='gdb -q'
 alias ls='ls --color=auto -F'
 alias ll='ls++'
 alias la='ls -lah --color=auto -F'
@@ -43,12 +46,21 @@ alias lmod="find /lib/modules/`uname -r` -iname '*.ko'"
 alias eacapeurl="sed -e's/%\([0-9A-F][0-9A-F]\)/\\\\\x\1/g'"
 alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
 
+#./archive/compton/compton -r 9 -l -13 -t -13 -c -C --shadow-blue 1 --shadow-red 0.2 --shadow-green 0.6 -o 0.325 --detect-rounded-corners
+
 function fawe {; find ~/.config/awesome/ -iname '*.lua' | xargs grep $1 --color;}
 
 function dnsrestart() {sudo ifconfig eth0 10.10.10.116 && ssh root@10.10.10.1 /etc/init.d/dnsmasq restart}
 
 function killawesome() {/bin/ps aux | grep awesome | grep -v tty | grep -v grep | grep -vE "(vi|vim|nano|kate|emacs)" | awk '{print $2}' | xargs -i kill -9 "{}"}
 function fixawperm() {find /usr/share/awesome/ -iname '*.lua' | xargs sudo chmod 777}
+
+function getalsa() {echo $( \
+	lsof +D /dev -F rt \
+	| awk '/^p/ {pid=$1} /^t/ {type=$1} /^r0x(74|e)..$/ && type == "tCHR" {print pid}' \
+	| cut -c 2- \
+	| uniq \
+)}
 
 #Make ctrl+left/right and ^W work as in any other apps in the universe
 zle -N backward-kill-word-bash backward-kill-word-match
@@ -79,11 +91,11 @@ function git_status() {
     GIT_BRANCH=$(git rev-parse  --abbrev-ref HEAD 2> /dev/null)
 
     if [ $? -eq 0 ]; then
-        dfs=$(git diff --shortstat | sed "s/ file changed/☢/;s/ insertion//;s/ deletion//;s/ files changed/☢/")
+        dfs=$(git diff --shortstat | sed "s/ file changed/⭡/;s/ insertion//;s/ deletion//;s/ files changed/⭡/")
         DIFF_STAT=$(echo $dfs | sed "s/(+)/$PR_GREEN%B+$PR_WHITE%B/;s/(-)/$PR_RED%B-/;s/,//;s/,//")
         dfs=$(echo $dfs | sed "s/(+)/+/;s/(-)/-/;s/,//;s/,//") #Do the same thing without colors
-        echo -e " $GIT_BRANCH$DIFF_STAT"
-        return $(( ${#dfs} + 19 )) #String length
+        echo -e "⭠ $GIT_BRANCH$DIFF_STAT"
+        return $(( ${#dfs} + 23 )) #String length
     else
         HOSTN=$(whoami)@$(hostname)
         echo $HOSTN

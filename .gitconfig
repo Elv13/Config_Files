@@ -18,12 +18,32 @@
     lg1 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%cr)%C(reset) %C(white)%s%C(reset) %C(bold white)— %cn%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
     lg2 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cD%C(reset) %C(bold green)(%cr)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(bold white)— %cn%C(reset)' --abbrev-commit
     lg = !"git lg1"
-    ds = diff --stat
+    ds = diff --stat #--staged
     sta = status
     st = status
     log = log --stat --graph
     cancel = reset --soft HEAD~1
     amend = commit --amend
     edit = !"git log --pretty=format:%s%n%n%b --no-decorate  HEAD~1..HEAD > /tmp/commess;git cancel;git stash;git stash pop"
-    recommit = "commit -F -a /tmp/commess"
+    recommit = "commit --amend --no-edit"
 
+[color "diff"]
+	meta = blue bold
+
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[core]
+	pager = diff-highlight | diff-so-fancy | less --tabs=1,5 -R -F -X
+[github]
+	user = Elv13
+
+[column]
+	status = column
+
+[status]
+	short = true
+	branch = true
+	showStat = true

@@ -43,4 +43,8 @@ imap <C-g> <esc>:
 imap <C-x> <esc>:confirm quit<CR>
 map <C-x> <esc>:confirm quit<CR>
 
+" map CTRL+K and CTRL+U to act like nano (insert mode)
+imap <C-k> <esc><S-v>di
+imap <C-u> <esc>Pi
+
 start

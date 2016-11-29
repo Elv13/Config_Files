@@ -22,6 +22,13 @@ define tig
    shell tig
 end
 
+# Add the scripts dir to the PATH to fix the git commands
+python
+import os
+os.environ['PATH'] = os.environ['PATH'] + ':' + os.environ['HOME'] + '/scripts'
+end
+
+# Add the `git` command to the GDB shell
 define git
     if $argc == 1
         shell git $arg0

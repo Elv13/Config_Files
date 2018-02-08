@@ -19,6 +19,7 @@
     lg2 = log --graph --all --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cD%C(reset) %C(bold green)(%cr)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(bold white)— %cn%C(reset)' --abbrev-commit
     lg = !"git lg1"
     ds = diff --stat #--staged
+    ls = log --stat #--staged
     sta = status
     st = status
     log = log --stat --graph
@@ -37,6 +38,7 @@
 	newHighlight = green bold 22
 [core]
 	pager = diff-highlight | diff-so-fancy | less --tabs=1,5 -R -F -X
+	editor = /home/lepagee/config_files/rebase/picker.py
 [github]
 	user = Elv13
 
@@ -44,6 +46,6 @@
 	status = column
 
 [status]
-	short = true
+	#short = true
 	branch = true
 	showStat = true

@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/lepagee/config_files/tui/lib/card.cpp
+card.h
+/home/lepagee/config_files/tui/lib/card.h
+
+/home/lepagee/config_files/tui/lib/card.h
+memory
+-
+vector
+-
+
+/home/lepagee/config_files/tui/lib/main.cpp
+card.h
+/home/lepagee/config_files/tui/lib/card.h
+

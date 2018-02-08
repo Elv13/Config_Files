@@ -1,0 +1,3 @@
+/home/lepagee/config_files/tui/lib/build/CMakeFiles/rebuild_cache.dir
+/home/lepagee/config_files/tui/lib/build/CMakeFiles/bdbg.dir
+/home/lepagee/config_files/tui/lib/build/CMakeFiles/edit_cache.dir

@@ -1,15 +1,15 @@
-# This file was written by KDE
-# You can edit it in the KDE control center, under "GTK Styles and Fonts"
-
-#include "/usr/share/themes/Qt4/gtk-2.0/gtkrc"
-
-include "/usr/share/themes/oxygen-gtk/gtk-2.0/gtkrc"
-
+include "/usr/share/themes/Breeze/gtk-2.0/gtkrc"
 style "user-font"
 {
-	font_name="Sans Serif"
+    font_name="Noto Sans Regular"
 }
 widget_class "*" style "user-font"
-
-gtk-theme-name="oxygen-gtk"
-gtk-font-name="Sans Serif 8"
+gtk-font-name="Noto Sans Regular 10"
+#gtk-theme-name="Breeze-Dark"
+gtk-application-prefer-dark-theme=true
+gtk-theme-name="Adwaita-dark-gtk2"
+gtk-icon-theme-name="breeze"
+gtk-fallback-icon-theme="gnome"
+gtk-toolbar-style=GTK_TOOLBAR_ICONS
+gtk-menu-images=1
+gtk-button-images=1

@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/bdbg.dir/card.o CMakeFiles/bdbg.dir/main.o  -o bdbg -rdynamic 

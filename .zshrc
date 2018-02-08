@@ -5,14 +5,19 @@ source /etc/issue
 PATH=/sbin:/usr/sbin:/usr/local/bin:/usr/bin:/bin:$HOME/config_files/scripts/:$HOME/prefix/bin/
 XDG_DATA_DIRS=$XDG_DATA_DIRS:/home/kde-devel/kde/share/akonadi/agents:$HOME/prefix/share
 QT_STYLE_OVERRIDE="breeze"
+QML2_IMPORT_PATH=/home/lepagee/prefix/lib64/qml/:/usr/lib64/qt5/qml
 export QT_STYLE_OVERRIDE="breeze"
 QT_PLUGIN_PATH=$HOME/prefix/lib64/plugins
+QT_SELECT=5
+EDITOR=vim
 
 export XAUTHORITY=$HOME/.Xauthority
 
 export HISTSIZE=2000
 export HISTFILE="$HOME/.zhistory"
 export SAVEHIST=$HISTSIZE
+#export PAGER="most"
+XDG_CURRENT_DESKTOP=KDE
 
 setopt histignoredups
 setopt histignorespace
@@ -24,7 +29,11 @@ setopt noequals
 
 # Do not close on CTRL+D
 setopt IGNORE_EOF
+stty stop undef
+stty start undef
 bindkey '^D' backward-char
+bindkey "\eOd" backward-word
+bindkey "\eOc" forward-word
 
 alias gdb='gdb -q'
 alias ls='ls --color=auto -F'
@@ -32,9 +41,10 @@ alias ll='ls++'
 alias la='ls -lah --color=auto -F'
 alias tarc="tar -cjvf "
 alias tarx="tax -xpvf "
+#alias nano="nano -w"
+alias nano=vim
 alias nn="nano -w "
 alias n="nano -w "
-alias nano="nano -w"
 alias grepkey="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
 alias xrags=xargs
 alias greo=grep
@@ -45,6 +55,9 @@ alias bell="echo '\a'"
 alias lmod="find /lib/modules/`uname -r` -iname '*.ko'"
 alias eacapeurl="sed -e's/%\([0-9A-F][0-9A-F]\)/\\\\\x\1/g'"
 alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
+alias wttr='curl wttr.in/Montreal'
+alias table="column  -o' │ ' -t"
+alias ntable="table | nl"
 
 #./archive/compton/compton -r 9 -l -13 -t -13 -c -C --shadow-blue 1 --shadow-red 0.2 --shadow-green 0.6 -o 0.325 --detect-rounded-corners
 
@@ -74,7 +87,7 @@ autoload -Uz url-quote-magic; zle -N self-insert url-quote-magic
 bindkey '^P' push-input
 
 source ~/.zshrc.d/external/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
+source ~/.zshrc.d/external/history-search-multi-word/history-search-multi-word.plugin.zsh
 eval $( dircolors -b $HOME/.LS_COLORS )
 ZLS_COLORS="$LS_COLORS"
 
@@ -105,10 +118,10 @@ function git_status() {
 
 autoload zkbd
 if [  "`ls ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE}`" != "" ];then
+  source ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE}
 else
   zkbd
 fi
-source ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE}
 
 #    [[ -n ${key[Left]} ]] && bindkey "${key[Left]}" backward-char
 #    [[ -n ${key[Right]} ]] && bindkey "${key[Right]}" forward-char
@@ -125,19 +138,12 @@ source ~/.zkbd/$TERM-${DISPLAY:-$VENDOR-$OSTYPE}
 [[ -n ${key[Down]} ]]       && bindkey "${key[Down]}"      down-line-or-history #down-line-or-search
 [[ -n ${key[Right]} ]]      && bindkey "${key[Right]}"     forward-char
 
-#bindkey "^[[5C" forward-word
-#bindkey "^[[5D" backward-word
-#bindkey "e[5C" forward-word
-#bindkey "e[5C" backward-word
-bindkey "\eOd" backward-word
-bindkey "\eOc" forward-word 
-
-
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' menu select=1
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ":history-search-multi-word" page-size "5"
 zstyle :compinstall filename '/home/lepagee/.zshrc'
 
 autoload -Uz compinit
@@ -242,27 +248,8 @@ PR_GRAYBG=">"#'%{$terminfo[bold]$bg[${(L)RED}]%}'
 
 setprompt () {
     ###
-    # Need this so the prompt will work.
 
     setopt prompt_subst
-
-
-    ###
-    # See if we can use colors.
-#    autoload colors zsh/terminfo
-#    if [[ "$terminfo[colors]" -ge 8 ]]; then
-#		colors
-#    fi
-#
-
-#    for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-#      eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
-#      eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
-#      (( count = $count + 1 ))
-#    done
-#    PR_NO_COLOUR="%{$terminfo[sgr0]%}"
-
-
 
     ###
     # See if we can use extended characters to look nicer.
@@ -273,12 +260,6 @@ setprompt () {
     PR_SHIFT_IN="%{$terminfo[smacs]%}"
     PR_SHIFT_OUT="%{$terminfo[rmacs]%}"
     PR_HBAR=${altchar[q]:--}
-#    PR_ULCORNER=${altchar[l]:--}
-#    PR_LLCORNER=${altchar[m]:--}
-#    PR_LRCORNER=${altchar[j]:--}
-#    PR_URCORNER=${altchar[k]:--}
-#╭
-#╰ 
     
     ###
     # Decide if we need to set titlebar text.

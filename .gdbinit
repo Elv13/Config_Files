@@ -2,6 +2,8 @@ set history remove-duplicates 1
 
 set history save on
 
+set pagination off
+
 set extended-prompt \e[100m\n\e[49m\n\e[31m==>\e[39m
 
 set print pretty on
@@ -21,6 +23,13 @@ end
 define tig
    shell tig
 end
+
+define ninja
+   shell ninja
+end
+
+# Don't return on PIPE events
+handle SIGPIPE nostop noprint pass
 
 # Add the scripts dir to the PATH to fix the git commands
 python
@@ -59,8 +68,34 @@ define git
     end
 end
 
+define ds
+    shell git ds
+end
+
+define status
+    shell git status
+end
+
+define diff
+    shell git diff
+end
+
+# Oh my GDB!!!!11
 python
-sys.path.insert(0, '/home/lepagee/archive/kdevelop/debuggers/gdb/printers')
+sys.path.insert(0, '/home/lepagee/config_files/tui')
+end
+
+source /home/lepagee/config_files/trace.py
+source /home/lepagee/config_files/stackoverflow.py
+source /home/lepagee/config_files/box.py
+source /home/lepagee/config_files/print.py
+source /home/lepagee/config_files/assert.py
+source /home/lepagee/config_files/make.py
+source /home/lepagee/config_files/printers/time.py
+
+python
+sys.path.insert(0, '/home/lepagee/config_files/printers')
+
 
 from qt import register_qt_printers
 from kde import register_kde_printers

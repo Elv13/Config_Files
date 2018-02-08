@@ -8,14 +8,21 @@ URxvt.perl-ext-common:     default,matcher
 ! ------------------------------------ FONTS ----------------------------------!
 #URxvt.font:                xft:DejaVu Sans Mono:pixelsize=13
 #urxvt*font: -*-terminus-*-*-*-*-12-*-*-*-*-*-*-*
-urxvt*font: xft:UbuntuMono-B:pixelsize=13
+#urxvt*font: xft:UbuntuMono-B:pixelsize=13,\
+#    xft:Monospace:size=13:antialias=true:hinting=tru‌​e\
+#    xft:unifont:style=Medium:antialias=false
+
+urxvt*font: xft:UbuntuMono-B:pixelsize=13,\
+    xft:unifont:style=Medium:antialias=false
+
 #urxvt*font: xft:MonospaceRegular
-#urxvt*boldFont: xft:Terminus
-urxvt.imLocale: en_US.UTF-8 
+#urxvt*boldFont: xft:UbuntuMono-B:pixelsize=13,\
+                xft:unifont:style=Medium:antialias=false
+urxvt.imLocale: en_US.UTF-8
 
 
 !--------------------------------URXVT OPTS------------------------------------!
-URxvt.termName: xterm
+URxvt.termName: xterm-256color
 URxvt.tintColor:           #757575
 URxvt.fading:              50
 !URxvt.blurRadius:         7
@@ -53,14 +60,15 @@ URxvt*urgentOnBell:        true
 
 
 !BG/FG
-URxvt.background:          #050505
+!URxvt.background:          #050505
+URxvt.background:          #020305
 URxvt.foreground:          #96B3C1
-URxvt.highlightTextColor:  #B9B9B9
-URxvt.highlightColor:      #1A1A1A
-URxvt.scrollColor:         #333333
+URxvt.highlightTextColor:  #000000
+URxvt.highlightColor:      #496285
+URxvt.scrollColor:         #496285
 
 !black
-*color0:  #333333
+*color0:  #111111
 *color8:  #101F3D
 !red
 *color1:  #8A2B57
@@ -91,25 +99,7 @@ URxvt*iconFile: /home/lepagee/.config/awesome/blind/arrow/Icon/term.png
 URxvt*urlLauncher: /home/lepagee/firefox/firefox
 URxvt*underlineColor: #0077FF
 
+URxvt*background.expr: 'align 1, 0, pad keep { load "/home/lepagee/config_files/term_logo.png" }'
 
-!URxvt*backgroundPixmap: /home/lepagee/Graphisme/LGO.png;0x0+97+97:
-
-!URxvt.background-expr: align 1,1,{ load "/home/lepagee/Graphisme/rect2985-0-6.png" }ct2985-0-6.png" }}g" }
-URxvt.iso14755: true
-URxvt.iso14755_52: false
-55: tru
-
-URxvt.iso14755_52: false
-se
-5: true
-URxvt.iso14755_52: false
-: true
-URxvt.iso14755_52: false
-t2985-0-6.png" }}g" }
-URxvt.iso14755: true
-URxvt.iso14755_52: false
-!pagee/Graphisme/rect2985-0-6.png;0x0+95+95:
-
-!URxvt.background-expr: align 1,1,{ load "/home/lepagee/Graphisme/rect2985-0-6.png" }ct2985-0-6.png" }}g" }
 URxvt.iso14755: true
 URxvt.iso14755_52: false

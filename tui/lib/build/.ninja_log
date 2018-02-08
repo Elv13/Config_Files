@@ -1,0 +1,12 @@
+# ninja log v5
+1	267	0	CMakeFiles/bdbg.dir/main.o	e674ea9eb6788003
+1	274	0	CMakeFiles/bdbg.dir/card.o	37e3b50cc54ece42
+274	336	0	bdbg	ad926eb607003a81
+0	2	0	clean	a7c70eacb11a5051
+0	298	0	CMakeFiles/bdbg.dir/main.o	e674ea9eb6788003
+0	312	0	CMakeFiles/bdbg.dir/card.o	37e3b50cc54ece42
+312	376	0	bdbg	ad926eb607003a81
+0	3	0	clean	a7c70eacb11a5051
+0	251	0	CMakeFiles/bdbg.dir/main.o	e674ea9eb6788003
+0	264	0	CMakeFiles/bdbg.dir/card.o	37e3b50cc54ece42
+264	323	0	bdbg	ad926eb607003a81

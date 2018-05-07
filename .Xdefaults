@@ -12,12 +12,27 @@ URxvt.perl-ext-common:     default,matcher
 #    xft:Monospace:size=13:antialias=true:hinting=tru‌​e\
 #    xft:unifont:style=Medium:antialias=false
 
-urxvt*font: xft:UbuntuMono-B:pixelsize=13,\
-    xft:unifont:style=Medium:antialias=false
+#urxvt*font: xft:UbuntuMono-B:pixelsize=13,\
+#    xft:unifont:style=Medium:antialias=false
+
+URxvt.font: xft:Ubuntu Mono:pixelsize=13:style=Medium,\
+    xft:UbuntuMono-B:pixelsize=16, xft:DejaVu Sans Mono for Powerline:pixelsize=17:style=Medium:antialias=false, xft:unifont:antialias=false
+
+#Xft.dpi:        96
+#Xft.antialias:  true
+#Xft.rgba:       rgb
+#Xft.lcdfilter:  lcddefault
+Xft.hinting:    false
+URxvt.letterSpace: 1
+#*utf8:         2
+
+#URxvt.boldFont:       xft:Ubuntu Mono derivative Powerline:bold:pixelsize=13:antialias=true:hinting=true
+#URxvt.italicFont:     xft:Ubuntu Mono derivative Powerline:italic:pixelsize=13:antialias=true:hinting=true
+#URxvt.boldItalicFont: xft:Ubuntu Mono derivative Powerline:bold:italic:pixelsize=13:antialias=true:hinting=true
 
 #urxvt*font: xft:MonospaceRegular
 #urxvt*boldFont: xft:UbuntuMono-B:pixelsize=13,\
-                xft:unifont:style=Medium:antialias=false
+#                xft:unifont:style=Medium:antialias=false
 urxvt.imLocale: en_US.UTF-8
 
 

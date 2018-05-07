@@ -1,20 +1,40 @@
 execute pathogen#infect()
 call pathogen#infect('bundle/{}')
 
+" Need to be done first, before "syntax on"
+set t_Co=256
+"set termguicolors
+
 syntax on
 filetype plugin indent on
 
 set rtp+=$HOME/config_files/.vim/bundle/powerline/powerline/bindings/vim/
 
+"let g:airline_section_z = airline#section#create(['windowswap', '⮀%3p%% ', 'linenr', ':%3v'])
+set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 13
+
+let g:airline_theme='kolor'
+let g:airline_powerline_fonts = 1
+
 "let g:Powerline_symbols = "fancy"
-set showtabline=2
+"set showtabline=2
+let airline#extensions#tabline#enabled = 1
+let airline#extensions#tabline#formatter = 'unique_tail'
+
+set mouse=a
+set cursorline
+
+" Remove the delay when presing escape
+" https://www.johnhawthorn.com/2012/09/vi-escape-delays/
+set timeoutlen=33 ttimeoutlen=33
 
 nnoremap <silent> <C-S> :if expand("%") == ""<CR>browse confirm w<CR>else<CR>confirm w<CR>endif<CR>
 set number
-set t_Co=256
-highlight LineNr ctermfg=grey
+
 set laststatus=2
 set noshowmode 
+
+colorscheme elflord
 
 set tabstop=4
 set expandtab
@@ -32,6 +52,21 @@ let EasyGrepMode = 1
 let EasyGrepIgnoreCase = 0
 let EasyGrepPatternType = "fixed"
 
+" Use relative line number in NORMAL mode
+set number relativenumber
+
+augroup numbertoggle
+  " Change the line mode
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
+" https://stackoverflow.com/questions/15561132/run-command-when-vim-enters-visual-mode
+"augroup normalmodecolor
+"  autocmd InsertEnter * highlight LineNr ctermfg=67 ctermbg=44
+"  autocmd InsertLeave * highlight LineNr ctermfg=67 ctermbg=55  
+"augroup END
 "
 " Make Vim insert mode act like Nano to avoid mode switch
 "
@@ -83,10 +118,17 @@ nnoremap <silent> <M-Down> <c-w>j
 
 " Fix invalid arrow key mapping
 
-imap Oa <C-Up>
-imap Ob <C-Down>
-imap Oc <C-Right>
-imap Od <C-Left>
+"imap Oa <C-Up>
+"imap Ob <C-Down>
+"imap Oc <C-Right>
+"imap Od <C-Left>
+
+
+"imap ^[1;Oa <C-S-Up>
+"imap ^[1;Ob <C-S-Down>
+"imap ^[1;Oc <C-S-Right>
+"imap ^[1;Od <C-S-Left>
+
 
 "imap ^[1;Oa <C-S-Up>
 "imap ^[1;Ob <C-S-Down>
@@ -113,6 +155,34 @@ map <C-S-Down> <esc>:m +1<ENTER>i
 imap <C-S-Up> <esc>:m -2<ENTER>i
 imap ^[1;Ob <esc>:m +1<ENTER>i
 
+" Select chars when Shift is pressed
+map <S-Right> vl
+imap <S-Right> <esc>vl
+map <S-Up> vk
+imap <S-Up> <esc>vk
+map <S-Down> vj
+imap <S-Down> <esc>vj
+map <S-Left> vj
+imap <S-Left> <esc>vj
+
+vmap <S-Up> <Up>
+vmap <S-Down> <Down>
+
+" Select next word
+map <C-S-Right> vw
+imap <C-S-Right> <esc>vw
+map <C-S-Left> v<C-Left>
+imap <C-S-Left> <esc>v<C-Left>
+
+vmap <C-S-Left> <C-Left>
+vmap <C-S-Right> <C-Right>
+
+" Easy buffer switch
+map <C-T> :bnext<CR>
+map <C-S-T> :bprev<CR>
+imap <C-T> :bnext<CR>i
+imap <C-S-T> :bprev<CR>i
+
 " Move line up and down
 imap [a <esc>dd2kpi
 imap [b <esc>ddpi
@@ -133,5 +203,15 @@ imap <F22> <esc><esc>CommandTBuffer<cr>
 
 " Auto completion
 set omnifunc=syntaxcomplete#Complete
+
+
+
+" Color
+highlight LineNr ctermfg=67 ctermbg=232
+highlight Visual cterm=NONE ctermbg=17 ctermfg=None
+highlight CursorLineNR cterm=bold ctermbg=234 ctermfg=75
+
+highlight clear CursorLine
+highlight CursorLine cterm=bold ctermbg=232 ctermfg=None
 
 start

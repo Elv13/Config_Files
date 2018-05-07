@@ -38,11 +38,11 @@ bindkey "\eOc" forward-word
 alias gdb='gdb -q'
 alias ls='ls --color=auto -F'
 alias ll='ls++'
-alias la='ls -lah --color=auto -F'
+alias la='ls -lah --color=y -F | table'
 alias tarc="tar -cjvf "
 alias tarx="tax -xpvf "
 #alias nano="nano -w"
-alias nano=vim
+alias nano=nvim
 alias nn="nano -w "
 alias n="nano -w "
 alias grepkey="xev | grep -A2 --line-buffered '^KeyRelease' | sed -n '/keycode /s/^.*keycode \([0-9]*\).* (.*, \(.*\)).*$/\1 \2/p'"
@@ -55,11 +55,15 @@ alias bell="echo '\a'"
 alias lmod="find /lib/modules/`uname -r` -iname '*.ko'"
 alias eacapeurl="sed -e's/%\([0-9A-F][0-9A-F]\)/\\\\\x\1/g'"
 alias urldecode='python2 -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
-alias wttr='curl wttr.in/Montreal'
+alias wttr='curl wttr.in/Montreal,Canada'
 alias table="column  -o' │ ' -t"
 alias ntable="table | nl"
 
 #./archive/compton/compton -r 9 -l -13 -t -13 -c -C --shadow-blue 1 --shadow-red 0.2 --shadow-green 0.6 -o 0.325 --detect-rounded-corners
+
+function backlight() { sudo su -c "echo $1 > /sys/class/backlight/intel_backlight/brightness"}
+
+function setacpi() { sudo su -c "/home/lepagee/prefix/bin/acpi.sh $1 $2"} 
 
 function fawe {; find ~/.config/awesome/ -iname '*.lua' | xargs grep $1 --color;}
 

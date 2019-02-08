@@ -1,5 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_cnt =6
 let g:netrw_dirhist_1='/home/lepagee/docker/ring-kde-appimage-builder/patches'
 let g:netrw_dirhist_2='/home/lepagee/dev/ring-kde'
 let g:netrw_dirhist_3='/home/lepagee/docker/ring-kde-appimage-builder'
+let g:netrw_dirhist_4='/home/lepagee/archive/kasync'
+let g:netrw_dirhist_5='/home/lepagee/dev/reclaimail/docker-notmuch'
+let g:netrw_dirhist_6='/home/lepagee/archive/kirigami'

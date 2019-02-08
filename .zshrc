@@ -5,11 +5,12 @@ source /etc/issue
 PATH=/sbin:/usr/sbin:/usr/local/bin:/usr/bin:/bin:$HOME/config_files/scripts/:$HOME/prefix/bin/
 XDG_DATA_DIRS=$XDG_DATA_DIRS:/home/kde-devel/kde/share/akonadi/agents:$HOME/prefix/share
 QT_STYLE_OVERRIDE="breeze"
-QML2_IMPORT_PATH=/home/lepagee/prefix/lib64/qml/:/usr/lib64/qt5/qml
+export QML2_IMPORT_PATH=/home/lepagee/prefix/lib64/qml/:/usr/lib64/qt5/qml
 export QT_STYLE_OVERRIDE="breeze"
-QT_PLUGIN_PATH=$HOME/prefix/lib64/plugins
-QT_SELECT=5
+export QT_PLUGIN_PATH=$HOME/prefix/lib64/plugins
+export QT_SELECT=5
 EDITOR=vim
+export XDG_CURRENT_DESKTOP=KDE
 
 export XAUTHORITY=$HOME/.Xauthority
 
@@ -17,7 +18,6 @@ export HISTSIZE=2000
 export HISTFILE="$HOME/.zhistory"
 export SAVEHIST=$HISTSIZE
 #export PAGER="most"
-XDG_CURRENT_DESKTOP=KDE
 
 setopt histignoredups
 setopt histignorespace
@@ -32,8 +32,9 @@ setopt IGNORE_EOF
 stty stop undef
 stty start undef
 bindkey '^D' backward-char
-bindkey "\eOd" backward-word
-bindkey "\eOc" forward-word
+bindkey -e
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
 
 alias gdb='gdb -q'
 alias ls='ls --color=auto -F'
@@ -71,6 +72,8 @@ function dnsrestart() {sudo ifconfig eth0 10.10.10.116 && ssh root@10.10.10.1 /e
 
 function killawesome() {/bin/ps aux | grep awesome | grep -v tty | grep -v grep | grep -vE "(vi|vim|nano|kate|emacs)" | awk '{print $2}' | xargs -i kill -9 "{}"}
 function fixawperm() {find /usr/share/awesome/ -iname '*.lua' | xargs sudo chmod 777}
+
+function coderename() { git ls-files .. | grep -E '\.(cpp|h)' | xargs sed -i 's/'$1'/'$2'/'}
 
 function getalsa() {echo $( \
 	lsof +D /dev -F rt \
@@ -197,15 +200,6 @@ function precmd {
 		PR_FILLBAR="\${(l.(($TERMWIDTH - ($promptsize + $pwdsize)-3))..${PR_HBAR}.)}"
     fi
 
-
-    ###
-    # Get APM info.
-
-    if which ibam > /dev/null; then
-	PR_APM_RESULT=`ibam --percentbattery`
-    elif which apm > /dev/null; then
-	PR_APM_RESULT=`apm`
-    fi
 }
 
 

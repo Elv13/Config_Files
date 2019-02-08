@@ -1,9 +1,20 @@
 execute pathogen#infect()
 call pathogen#infect('bundle/{}')
 
+" Install plugins
+call plug#begin('~/.vim/plugged')
+Plug 'Shougo/deoplete.nvim'
+Plug 'zchee/deoplete-clang'
+Plug 'airblade/vim-gitgutter'
+call plug#end()
+" call :PlugInstall to install
+
 " Need to be done first, before "syntax on"
 set t_Co=256
 "set termguicolors
+
+" Indentation
+set shiftwidth=4
 
 syntax on
 filetype plugin indent on
@@ -38,6 +49,12 @@ colorscheme elflord
 
 set tabstop=4
 set expandtab
+
+" Git support
+
+let g:gitgutter_sign_added = '┃'
+let g:gitgutter_sign_modified = '┃'
+let g:gitgutter_sign_removed = '┃'
 
 " Make search case insensitive
 set ignorecase
@@ -88,8 +105,8 @@ imap <C-o> <esc>:w<CR>li
 map <C-o> <esc>:w<CR>li
 
 " CTRL+W to search (insert mode)
-imap <C-w> <esc>/
-map <C-w> <esc>/
+imap <C-w> <esc>?
+map <C-w> <esc>?
 
 " CTRL+G goto line (insert mode)
 imap <C-g> <esc>:
@@ -117,23 +134,27 @@ nnoremap <silent> <M-Up> <c-w>k
 nnoremap <silent> <M-Down> <c-w>j
 
 " Fix invalid arrow key mapping
-
 "imap Oa <C-Up>
 "imap Ob <C-Down>
 "imap Oc <C-Right>
 "imap Od <C-Left>
-
-
-"imap ^[1;Oa <C-S-Up>
-"imap ^[1;Ob <C-S-Down>
-"imap ^[1;Oc <C-S-Right>
-"imap ^[1;Od <C-S-Left>
-
+"imap "\e[1;5D" <C-Right>
+"imap "\e[1;5C" <C-Left>
 
 "imap ^[1;Oa <C-S-Up>
 "imap ^[1;Ob <C-S-Down>
 "imap ^[1;Oc <C-S-Right>
 "imap ^[1;Od <C-S-Left>
+
+
+map ^[1;0a <C-S-Up>
+map ^[1;0b <C-S-Down>
+map ^[1;0c <C-S-Right>
+map ^[1;0d <C-S-Left>
+imap ^[1;0a <C-S-Up>
+imap ^[1;0b <C-S-Down>
+imap ^[1;0c <C-S-Right>
+imap ^[1;0d <C-S-Left>
 
 " Move line up and down
 "noremap <ESC>[[a <C-S-Left>
@@ -203,7 +224,9 @@ imap <F22> <esc><esc>CommandTBuffer<cr>
 
 " Auto completion
 set omnifunc=syntaxcomplete#Complete
-
+"let g:deoplete#sources#clang#libclang_path = "/usr/lib64/llvm/4/lib64/libclang.so"
+"let g:deoplete#sources#clang#clang_header = "/usr/lib64/llvm/4/include/clang/"
+"let g:deoplete#enable_at_startup = 1
 
 
 " Color

@@ -11,7 +11,9 @@ call plug#end()
 
 " Need to be done first, before "syntax on"
 set t_Co=256
-"set termguicolors
+"set t_AB=^[[48;5;%dm
+"set t_AF=^[[38;5;%dm
+set notermguicolors
 
 " Indentation
 set shiftwidth=4
@@ -81,28 +83,35 @@ augroup END
 
 " https://stackoverflow.com/questions/15561132/run-command-when-vim-enters-visual-mode
 "augroup normalmodecolor
-"  autocmd InsertEnter * highlight LineNr ctermfg=67 ctermbg=44
-"  autocmd InsertLeave * highlight LineNr ctermfg=67 ctermbg=55  
+  "autocmd InsertEnter * highlight LineNr ctermfg=67 ctermbg=232
+  "autocmd InsertLeave * highlight LineNr ctermfg=67 ctermbg=234
+  "autocmd CmdlineEnter * highlight LineNr ctermfg=67 ctermbg=52
+  "autocmd CmdlineLeave * highlight LineNr ctermfg=67 ctermbg=54
+  "autocmd NormalEnter highlight LineNr ctermfg=67 ctermbg=234
 "augroup END
-"
+
+
+" Wrap the cursor at the end of the line
+set whichwrap+=<,>,h,l,[,]
+
 " Make Vim insert mode act like Nano to avoid mode switch
 "
 
 " map CTRL-E to end-of-line (insert mode)
-imap <C-e> <esc>$i<right>
-map <C-e> <esc>$i<right>
+imap <C-e> <cmd>normal! $i<cr><right><right>
+map <C-e> <cmd>normal! $i<cr>i<right><right>
 
 " map CTRL-A to beginning-of-line (insert mode)
-imap <C-a> <esc>0i
-map <C-a> <esc>0i
+imap <C-a> <cmd>normal! 0i<cr>
+map <C-a> <cmd>normal! 0i<cr>
 
 " CTRL-U to paste (insert mode)
-imap <C-u> <esc>P
-map <C-u> <esc>P
+imap <C-u> <cmd>normal!Pi<cr>
+map <C-u> <cmd>normal! Pi<cr>
 
 " CTRL+O to save (insert mode)
-imap <C-o> <esc>:w<CR>li
-map <C-o> <esc>:w<CR>li
+imap <C-o> <Cmd>:w<CR>
+map <C-o> <Cmd>:w<CR>
 
 " CTRL+W to search (insert mode)
 imap <C-w> <esc>?
@@ -113,8 +122,8 @@ imap <C-g> <esc>:
 map <C-g> <esc>:
 
 " CTRL+X to save and quit (insert mode)
-imap <C-x> <esc>:confirm quit<CR>
-map <C-x> <esc>:confirm quit<CR>
+imap <C-x> <cmd>:confirm quit<CR>
+map <C-x> <cmd>:confirm quit<CR>
 
 " map CTRL+K and CTRL+U to act like nano (insert mode)
 imap <C-k> <esc><S-v>di
@@ -123,9 +132,22 @@ map <C-k> <esc><S-v>di
 imap <C-u> <esc>Pi
 map <C-u> <esc>Pi
 
+" CTRL+BackSpace: remove word to the left
+imap <C-BS> <cmd>normal! dvbi<cr><right><right>
+"imap <C-h> <esc>dvbi
+"map <C-h> <esc>dvbi
+map <C-BS> dvbi
+set backspace=indent,eol,start
+
+" Undo
+imap <C-z> <cmd>normal! ui<cr>
+map <C-z> <cmd>normal! ui<cr>
+
 " map CTRL+R to search and replace
-imap <C-r> <esc>:ReplacePrompt<cr>
-map <C-r> <esc>:ReplacePrompt<cr>
+imap <C-r> <cmd>:ReplacePrompt<cr>
+map <C-r> <cmd>:ReplacePrompt<cr>
+
+imap <F22> foo
 
 " Map alt+arrow to navigate panes
 nnoremap <silent> <M-Right> <c-w>l
@@ -155,26 +177,16 @@ imap ^[1;0a <C-S-Up>
 imap ^[1;0b <C-S-Down>
 imap ^[1;0c <C-S-Right>
 imap ^[1;0d <C-S-Left>
+"imap ^[36~ <esc>ff
 
 " Move line up and down
-"noremap <ESC>[[a <C-S-Left>
-"noremap! <ESC>[[a <C-S-Left>
-"noremap <ESC>[[b <C-S-Right>
-"noremap! <ESC>[[b <C-S-Right>
+imap <C-S-Up> <cmd>:m -2<cr>
+imap <C-S-Down> <cmd>:m +1<cr>
+map <C-S-Up> <cmd>:m -2<cr>
+map <C-S-Down> <cmd>:m +1<cr>
 
-"imap <C-S-M> <esc>:m -2<ENTER>i
-"imap <C-S-B> <esc>:m +1<ENTER>i
-
-"noremap <C-S-Up> <esc>:m -2<ENTER>i
-"noremap <C-S-Down> <esc>:m +1<ENTER>i
-
-imap <C-S-Up> <esc>:m -2<ENTER>i
-imap <C-S-Down> <esc>:m +1<ENTER>i
-map <C-S-Up> <esc>:m -2<ENTER>i
-map <C-S-Down> <esc>:m +1<ENTER>i
-
-imap <C-S-Up> <esc>:m -2<ENTER>i
-imap ^[1;Ob <esc>:m +1<ENTER>i
+"imap <C-S-Up> <esc>:m -2<ENTER>i
+"imap ^[1;Ob <esc>:m +1<ENTER>i
 
 " Select chars when Shift is pressed
 map <S-Right> vl
@@ -205,16 +217,16 @@ imap <C-T> :bnext<CR>i
 imap <C-S-T> :bprev<CR>i
 
 " Move line up and down
-imap [a <esc>dd2kpi
-imap [b <esc>ddpi
-map [a <esc>dd2kpi
-map [b <esc>ddpi
+"imap [a <esc>dd2kpi
+"imap [b <esc>ddpi
+"map [a <esc>dd2kpi
+"map [b <esc>ddpi
 
 "imap <C-S-L> <esc>:q
 
 "imap <C-S-Up> <esc><S-v>dk<esc>Pi
-imap <C-S-Left> <esc>:q
-imap <C-S-L> <esc>:q
+"imap <C-S-Left> <esc>:q
+"imap <C-S-L> <esc>:q
 
 " Remap F22
 "let mapleader = "[36~"
@@ -230,7 +242,7 @@ set omnifunc=syntaxcomplete#Complete
 
 
 " Color
-highlight LineNr ctermfg=67 ctermbg=232
+highlight LineNr ctermfg=67 ctermbg=233
 highlight Visual cterm=NONE ctermbg=17 ctermfg=None
 highlight CursorLineNR cterm=bold ctermbg=234 ctermfg=75
 

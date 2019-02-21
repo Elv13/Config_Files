@@ -1,0 +1,7 @@
+/*.log
+/*.o
+/Makefile
+/ext.*
+/metadata.rb
+!/ext.c
+!/ext.h

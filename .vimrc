@@ -104,6 +104,7 @@ map <C-e> <cmd>normal! $i<cr>i<right><right>
 " map CTRL-A to beginning-of-line (insert mode)
 imap <C-a> <cmd>normal! 0i<cr>
 map <C-a> <cmd>normal! 0i<cr>
+cmap <C-a> <Home>
 
 " CTRL-U to paste (insert mode)
 imap <C-u> <cmd>normal!Pi<cr>
@@ -126,17 +127,18 @@ imap <C-x> <cmd>:confirm quit<CR>
 map <C-x> <cmd>:confirm quit<CR>
 
 " map CTRL+K and CTRL+U to act like nano (insert mode)
-imap <C-k> <esc><S-v>di
+imap <C-k> <cmd>normal! ddi<cr>
 map <C-k> <esc><S-v>di
 
-imap <C-u> <esc>Pi
+imap <C-u> <cmd>normal! Pji<cr>
 map <C-u> <esc>Pi
 
 " CTRL+BackSpace: remove word to the left
-imap <C-BS> <cmd>normal! dvbi<cr><right><right>
+imap <C-BS> <cmd>normal! hdvb<cr>
 "imap <C-h> <esc>dvbi
 "map <C-h> <esc>dvbi
 map <C-BS> dvbi
+cmap <C-Bs> <C-w>
 set backspace=indent,eol,start
 
 " Undo
@@ -188,6 +190,12 @@ map <C-S-Down> <cmd>:m +1<cr>
 "imap <C-S-Up> <esc>:m -2<ENTER>i
 "imap ^[1;Ob <esc>:m +1<ENTER>i
 
+" Indentation
+imap <Tab> <cmd>normal! >><cr>
+imap <S-Tab> <cmd>normal! <<<cr>
+map <Tab> >>
+map <S-Tab> <<
+
 " Select chars when Shift is pressed
 map <S-Right> vl
 imap <S-Right> <esc>vl
@@ -215,6 +223,16 @@ map <C-T> :bnext<CR>
 map <C-S-T> :bprev<CR>
 imap <C-T> :bnext<CR>i
 imap <C-S-T> :bprev<CR>i
+
+" Buffer navigation
+imap <A-Up> <cmd>:bNext<cr>
+map <A-Up> <cmd>:bNext<cr>
+imap <A-Down> <cmd>:bprevious<cr>
+map <A-Down> <cmd>:bprevious<cr>
+
+" Completion
+imap <C-Space> <C-p>
+map <C-Space> <C-p>
 
 " Move line up and down
 "imap [a <esc>dd2kpi
@@ -248,5 +266,13 @@ highlight CursorLineNR cterm=bold ctermbg=234 ctermfg=75
 
 highlight clear CursorLine
 highlight CursorLine cterm=bold ctermbg=232 ctermfg=None
+
+":hi Normal ctermbg=Black ctermfg=Black cterm=NONE
+
+"augroup cmdBg
+"    au!
+"    au CmdLineEnter * hi Normal ctermfg=DarkGrey
+"    au CmdLineLeave * hi Normal ctermfg=Black
+"augroup END
 
 start

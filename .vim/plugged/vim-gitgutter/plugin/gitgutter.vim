@@ -34,9 +34,9 @@ if g:gitgutter_sign_column_always && exists('&signcolumn')
   call gitgutter#utility#warn('please replace "let g:gitgutter_sign_column_always=1" with "set signcolumn=yes"')
 endif
 call s:set('g:gitgutter_override_sign_column_highlight', 1)
-call s:set('g:gitgutter_sign_added',                '+')
-call s:set('g:gitgutter_sign_modified',             '~')
-call s:set('g:gitgutter_sign_removed',              '_')
+call s:set('g:gitgutter_sign_added',                   '+')
+call s:set('g:gitgutter_sign_modified',                '~')
+call s:set('g:gitgutter_sign_removed',                 '_')
 
 if gitgutter#utility#supports_overscore_sign()
   call s:set('g:gitgutter_sign_removed_first_line', '‾')
@@ -44,13 +44,15 @@ else
   call s:set('g:gitgutter_sign_removed_first_line', '_^')
 endif
 
-call s:set('g:gitgutter_sign_modified_removed',    '~_')
-call s:set('g:gitgutter_diff_args',                  '')
-call s:set('g:gitgutter_diff_base',                  '')
-call s:set('g:gitgutter_map_keys',                    1)
-call s:set('g:gitgutter_terminal_reports_focus',      1)
-call s:set('g:gitgutter_async',                       1)
-call s:set('g:gitgutter_log',                         0)
+call s:set('g:gitgutter_sign_removed_above_and_below', '[')
+call s:set('g:gitgutter_sign_modified_removed',       '~_')
+call s:set('g:gitgutter_git_args',                      '')
+call s:set('g:gitgutter_diff_args',                     '')
+call s:set('g:gitgutter_diff_base',                     '')
+call s:set('g:gitgutter_map_keys',                       1)
+call s:set('g:gitgutter_terminal_reports_focus',         1)
+call s:set('g:gitgutter_async',                          1)
+call s:set('g:gitgutter_log',                            0)
 
 call s:set('g:gitgutter_git_executable', 'git')
 if !executable(g:gitgutter_git_executable)
@@ -94,6 +96,10 @@ command! -bar GitGutter    call gitgutter#process_buffer(bufnr(''), 1)
 command! -bar GitGutterDisable call gitgutter#disable()
 command! -bar GitGutterEnable  call gitgutter#enable()
 command! -bar GitGutterToggle  call gitgutter#toggle()
+
+command! -bar GitGutterBufferDisable call gitgutter#buffer_disable()
+command! -bar GitGutterBufferEnable  call gitgutter#buffer_enable()
+command! -bar GitGutterBufferToggle  call gitgutter#buffer_toggle()
 
 " }}}
 
@@ -160,6 +166,12 @@ endfunction
 
 " }}}
 
+" Folds {{{
+
+command! -bar GitGutterFold call gitgutter#fold#toggle()
+
+" }}}
+
 command! -bar GitGutterDebug call gitgutter#debug#debug()
 
 " Maps {{{
@@ -173,26 +185,10 @@ nnoremap <silent> <Plug>GitGutterPreviewHunk :GitGutterPreviewHunk<CR>
 
 " }}}
 
-function! s:flag_inactive_tabs()
-  let active_tab = tabpagenr()
-  for i in range(1, tabpagenr('$'))
-    if i != active_tab
-      call settabvar(i, 'gitgutter_force', 1)
-    endif
-  endfor
-endfunction
-
 function! s:on_bufenter()
   if exists('t:gitgutter_didtabenter') && t:gitgutter_didtabenter
     let t:gitgutter_didtabenter = 0
-    let force = !g:gitgutter_terminal_reports_focus
-
-    if exists('t:gitgutter_force') && t:gitgutter_force
-      let t:gitgutter_force = 0
-      let force = 1
-    endif
-
-    call gitgutter#all(force)
+    call gitgutter#all(!g:gitgutter_terminal_reports_focus)
   else
     call gitgutter#init_buffer(bufnr(''))
     call gitgutter#process_buffer(bufnr(''), !g:gitgutter_terminal_reports_focus)
@@ -208,15 +204,27 @@ augroup gitgutter
 
   autocmd BufEnter * call s:on_bufenter()
 
-  autocmd CursorHold,CursorHoldI            * call gitgutter#process_buffer(bufnr(''), 0)
-  autocmd FileChangedShellPost,ShellCmdPost * call gitgutter#process_buffer(bufnr(''), 1)
+  autocmd CursorHold,CursorHoldI * call gitgutter#process_buffer(bufnr(''), 0)
+  autocmd FileChangedShellPost   * call gitgutter#process_buffer(bufnr(''), 1)
 
   " Ensure that all buffers are processed when opening vim with multiple files, e.g.:
   "
   "   vim -o file1 file2
   autocmd VimEnter * if winnr() != winnr('$') | call gitgutter#all(0) | endif
 
-  autocmd FocusGained * call gitgutter#all(1) | call s:flag_inactive_tabs()
+  autocmd ShellCmdPost * call gitgutter#all(1)
+  autocmd BufLeave term://* call gitgutter#all(1)
+
+  " Handle all buffers when focus is gained, but only after it was lost.
+  " FocusGained gets triggered on startup with Neovim at least already.
+  " Therefore this tracks also if it was lost before.
+  let s:focus_was_lost = 0
+  autocmd FocusGained * if s:focus_was_lost | let focus_was_lost = 0 | call gitgutter#all(1) | endif
+  autocmd FocusLost * let s:focus_was_lost = 1
+
+  if exists('##VimResume')
+    autocmd VimResume * call gitgutter#all(1)
+  endif
 
   autocmd ColorScheme * call gitgutter#highlight#define_sign_column_highlight() | call gitgutter#highlight#define_highlights()
 

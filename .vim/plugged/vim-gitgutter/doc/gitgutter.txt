@@ -148,6 +148,11 @@ Commands for operating on a hunk:~
                         Use |:pclose| or |CTRL-W_CTRL-Z| to close the preview
                         window.
 
+Commands for folds:~
+
+                                                     *gitgutter-:GitGutterFold*
+:GitGutterFold          Fold all unchanged lines.  Execute again to undo.
+
 
 ===============================================================================
 AUTOCOMMAND                                             *gitgutter-autocommand*
@@ -232,6 +237,7 @@ Most important option:~
 Git:~
 
     |g:gitgutter_git_executable|
+    |g:gitgutter_git_args|
     |g:gitgutter_diff_args|
     |g:gitgutter_diff_base|
 
@@ -269,6 +275,15 @@ Default: 'git'
 
 This option determines what git binary to use.  Set this if git is not on your
 path.
+
+                                                         *g:gitgutter_git_args*
+Default: empty
+
+Use this option to pass any extra arguments to git when running git-diff.
+For example:
+>
+    let g:gitgutter_git_args = '--git-dir=""'
+<
 
                                                         *g:gitgutter_diff_args*
 Default: empty
@@ -423,7 +438,7 @@ colorscheme or |vimrc|:
 You can either set these with `highlight GitGutterAdd {key}={arg}...` or link
 them to existing highlight groups with, say:
 >
-  highlight link GitGutterAdd DiffAdd
+  highlight link GitGutterAdd MyDiffAdd
 <
 
 To change the line highlights, set up the following highlight groups in your
@@ -433,6 +448,11 @@ colorscheme or |vimrc|:
     GitGutterChangeLine       " default: links to DiffChange
     GitGutterDeleteLine       " default: links to DiffDelete
     GitGutterChangeDeleteLine " default: links to GitGutterChangeLineDefault
+<
+
+For example, to use |hl-DiffText| instead of |hl-DiffChange|:
+>
+    highlight link GitGutterChangeLine DiffChange
 <
 
 
